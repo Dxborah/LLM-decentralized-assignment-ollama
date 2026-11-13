@@ -7,7 +7,7 @@ from core.plot import plot_grid_unassigned_labeled
 
 # Constants
 IMAGE_PATH = "data/grid.png"
-OUTPUT_DIR = "results_team"
+OUTPUT_DIR = os.getenv("RESULTS_DIR", "results_team")  # tag per model, e.g. results_llava
 VISUALIZE = False  # set to True if you want to save visuals
 TRIALS_PER_CASE = 2
 
@@ -93,6 +93,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     VISUALIZE = args.visualize
+    os.makedirs("data", exist_ok=True)  # agents save grid.png here
     TRIALS_PER_CASE = args.trials
 
     # Load all YAML cases

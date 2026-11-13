@@ -1,0 +1,18 @@
+Evaluated 20 trials across 10 scenarios
+
+Task level
+  Optimal (Steps == TrueOptimal): 13/20
+  Average optimality gap (finished trials): 11.5%
+  Failures (max steps): 0/20
+  Agents made to wait by cell conflicts: 0
+
+Game level (round 1, s: 0 = Nash, +1 = optimum, -1 = worst)
+  Conflicts: 24 (goal 24, cell 0, replan 0)
+  Mean s, all: +1.00  (scored: 20)
+  Mean s, goal / cell / replan: +1.00 / n/a / n/a
+  Mean s, easy (gap >= 2) / hard: +1.00 (8) / +1.00 (16)
+  Coordination rate (exactly one claim): 100.0%
+  Clash rate (2+ claims in round 1): 0.0%
+  All-yield rate (nobody claims in round 1): 0.0%
+  Nash fallbacks after the replay: 0
+  Unparsed LLM replies (counted as YIELD): 0

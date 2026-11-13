@@ -1,0 +1,102 @@
+[
+  {
+    "game": "goal_assignment",
+    "payoff": "team",
+    "llm_weight": 0.5,
+    "num_profiles": 27,
+    "num_equilibria": 6,
+    "equilibria": [
+      {
+        "assignment": {
+          "Agent 1": "A",
+          "Agent 2": "B",
+          "Agent 3": "C"
+        },
+        "makespan": 6
+      },
+      {
+        "assignment": {
+          "Agent 1": "A",
+          "Agent 2": "C",
+          "Agent 3": "B"
+        },
+        "makespan": 7
+      },
+      {
+        "assignment": {
+          "Agent 1": "B",
+          "Agent 2": "A",
+          "Agent 3": "C"
+        },
+        "makespan": 7
+      },
+      {
+        "assignment": {
+          "Agent 1": "B",
+          "Agent 2": "C",
+          "Agent 3": "A"
+        },
+        "makespan": 8
+      },
+      {
+        "assignment": {
+          "Agent 1": "C",
+          "Agent 2": "A",
+          "Agent 3": "B"
+        },
+        "makespan": 7
+      },
+      {
+        "assignment": {
+          "Agent 1": "C",
+          "Agent 2": "B",
+          "Agent 3": "A"
+        },
+        "makespan": 8
+      }
+    ],
+    "chosen": {
+      "assignment": {
+        "Agent 1": "A",
+        "Agent 2": "B",
+        "Agent 3": "C"
+      },
+      "makespan": 6
+    },
+    "no_equilibrium_fallback": false,
+    "distances": {
+      "Agent 1": {
+        "A": 6,
+        "B": 5,
+        "C": 6
+      },
+      "Agent 2": {
+        "A": 7,
+        "B": 6,
+        "C": 7
+      },
+      "Agent 3": {
+        "A": 8,
+        "B": 7,
+        "C": 6
+      }
+    },
+    "llm_rankings": {
+      "Agent 1": [
+        "B",
+        "A",
+        "C"
+      ],
+      "Agent 2": [
+        "B",
+        "A",
+        "C"
+      ],
+      "Agent 3": [
+        "B",
+        "C",
+        "A"
+      ]
+    }
+  }
+]

@@ -1,0 +1,53 @@
+[
+  {
+    "game": "goal_assignment",
+    "payoff": "team",
+    "llm_weight": 0.5,
+    "num_profiles": 4,
+    "num_equilibria": 2,
+    "equilibria": [
+      {
+        "assignment": {
+          "Agent 1": "A",
+          "Agent 2": "B"
+        },
+        "makespan": 14
+      },
+      {
+        "assignment": {
+          "Agent 1": "B",
+          "Agent 2": "A"
+        },
+        "makespan": 7
+      }
+    ],
+    "chosen": {
+      "assignment": {
+        "Agent 1": "B",
+        "Agent 2": "A"
+      },
+      "makespan": 7
+    },
+    "no_equilibrium_fallback": false,
+    "distances": {
+      "Agent 1": {
+        "A": 14,
+        "B": 7
+      },
+      "Agent 2": {
+        "A": 7,
+        "B": 10
+      }
+    },
+    "llm_rankings": {
+      "Agent 1": [
+        "B",
+        "A"
+      ],
+      "Agent 2": [
+        "B",
+        "A"
+      ]
+    }
+  }
+]

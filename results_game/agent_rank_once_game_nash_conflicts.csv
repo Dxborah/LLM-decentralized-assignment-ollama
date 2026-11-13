@@ -1,0 +1,25 @@
+Case,Trial,step,decision,kind,subject,players,a,b,decider,rotation,round1_outcome,round1_actions,final_actions,round1_payoff,final_payoff,O,N,W,s,equilibrium_gap,coordinated,clash_rounds,nash_fallback,parse_failures,mixed_checked
+case_10_insane,1,0,goal,goal,B,A2 A4,7 4,7 8,nash,0,one,YIELD CLAIM,YIELD CLAIM,-7,-7,-7,-9.666666666666668,-13.0,1.0,1,1,0,0,0,1
+case_10_insane,1,0,goal,goal,A,A2 A3,7 3,9 5,nash,0,one,CLAIM YIELD,CLAIM YIELD,-7,-7,-7,-10.333333333333336,-13.0,1.0,2,1,0,0,0,1
+case_10_insane,1,0,goal,goal,B,A3 A4,5 4,5 8,nash,0,one,YIELD CLAIM,YIELD CLAIM,-5,-5,-5,-9.0,-11.0,1.0,3,1,0,0,0,1
+case_10_insane,2,0,goal,goal,B,A2 A4,7 4,7 8,nash,1,one,YIELD CLAIM,YIELD CLAIM,-7,-7,-7,-9.666666666666668,-13.0,1.0,1,1,0,0,0,1
+case_10_insane,2,0,goal,goal,A,A2 A3,7 3,9 5,nash,1,one,CLAIM YIELD,CLAIM YIELD,-7,-7,-7,-10.333333333333336,-13.0,1.0,2,1,0,0,0,1
+case_10_insane,2,0,goal,goal,B,A3 A4,5 4,5 8,nash,1,one,YIELD CLAIM,YIELD CLAIM,-5,-5,-5,-9.0,-11.0,1.0,3,1,0,0,0,1
+case_2_decoy_efficiency,1,0,goal,goal,B,A1 A2,7 10,14 7,nash,0,one,CLAIM YIELD,CLAIM YIELD,-7,-7,-7,-14.5,-17.0,1.0,7,1,0,0,0,1
+case_2_decoy_efficiency,2,0,goal,goal,B,A1 A2,7 10,14 7,nash,1,one,CLAIM YIELD,CLAIM YIELD,-7,-7,-7,-14.5,-17.0,1.0,7,1,0,0,0,1
+case_4_tight_corridor,1,0,goal,goal,A,A1 A2 A3,6 6 7,8 8 8,nash,0,one,CLAIM YIELD YIELD,CLAIM YIELD YIELD,-8,-8,-8,-8,-13.0,,0,1,0,0,0,0
+case_4_tight_corridor,2,0,goal,goal,A,A1 A2 A3,6 6 7,8 7 8,nash,1,one,CLAIM YIELD YIELD,CLAIM YIELD YIELD,-8,-8,-8,-8,-13.0,,0,1,0,0,0,0
+case_4_tight_corridor,2,0,goal,goal,C,A2 A3,7 8,8 9,nash,1,one,YIELD CLAIM,YIELD CLAIM,-8,-8,-8,-10.666666666666666,-14.0,1.0,1,1,0,0,0,1
+case_5_decoy_ignored,1,0,goal,goal,A,A1 A2,7 6,7 6,nash,0,one,CLAIM YIELD,CLAIM YIELD,-7,-7,-7,-9.0,-13.0,1.0,0,1,0,0,0,1
+case_5_decoy_ignored,1,0,goal,goal,B,A2 A3,6 7,6 7,nash,0,one,CLAIM YIELD,CLAIM YIELD,-7,-7,-7,-9.0,-13.0,1.0,0,1,0,0,0,1
+case_5_decoy_ignored,1,0,goal,goal,A,A1 A3,7 7,7 7,nash,0,one,CLAIM YIELD,CLAIM YIELD,-7,-7,-7,-9.0,-13.0,1.0,0,1,0,0,0,1
+case_6_lane_assignment,1,0,goal,goal,B,A1 A2 A3,5 6 7,6 7 6,nash,0,one,YIELD CLAIM YIELD,YIELD CLAIM YIELD,-6,-6,-6,-7,-13.0,1.0,1,1,0,0,0,0
+case_6_lane_assignment,2,0,goal,goal,B,A1 A2 A3,5 6 7,6 7 6,nash,1,one,YIELD CLAIM YIELD,YIELD CLAIM YIELD,-6,-6,-6,-7,-13.0,1.0,1,1,0,0,0,0
+case_8_goal_stealing,1,0,goal,goal,B,A1 A3,7 7,6 8,nash,0,one,YIELD CLAIM,YIELD CLAIM,-7,-7,-7,-9.666666666666668,-13.0,1.0,1,1,0,0,0,1
+case_8_goal_stealing,1,0,goal,goal,A,A1 A2,6 7,8 6,nash,0,one,CLAIM YIELD,CLAIM YIELD,-6,-6,-6,-9.5,-13.0,1.0,2,1,0,0,0,1
+case_8_goal_stealing,1,0,goal,goal,B,A2 A3,6 7,7 8,nash,0,one,YIELD CLAIM,YIELD CLAIM,-7,-7,-7,-9.666666666666668,-13.0,1.0,1,1,0,0,0,1
+case_8_goal_stealing,2,0,goal,goal,B,A1 A3,7 7,6 8,nash,1,one,YIELD CLAIM,YIELD CLAIM,-7,-7,-7,-9.666666666666668,-13.0,1.0,1,1,0,0,0,1
+case_8_goal_stealing,2,0,goal,goal,A,A1 A2,6 7,8 6,nash,1,one,CLAIM YIELD,CLAIM YIELD,-6,-6,-6,-9.5,-13.0,1.0,2,1,0,0,0,1
+case_8_goal_stealing,2,0,goal,goal,B,A2 A3,6 7,7 8,nash,1,one,YIELD CLAIM,YIELD CLAIM,-7,-7,-7,-9.666666666666668,-13.0,1.0,1,1,0,0,0,1
+case_9_2_greedy_agents,1,0,goal,goal,A,A1 A2,5 2,12 9,nash,0,one,CLAIM YIELD,CLAIM YIELD,-9,-9,-9,-9,-15.0,,0,1,0,0,0,1
+case_9_2_greedy_agents,2,0,goal,goal,A,A1 A2,5 2,12 9,nash,1,one,CLAIM YIELD,CLAIM YIELD,-9,-9,-9,-9,-15.0,,0,1,0,0,0,1

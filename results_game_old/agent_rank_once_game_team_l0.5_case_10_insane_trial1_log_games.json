@@ -1,0 +1,286 @@
+[
+  {
+    "game": "goal_assignment",
+    "payoff": "team",
+    "llm_weight": 0.5,
+    "num_profiles": 256,
+    "num_equilibria": 24,
+    "equilibria": [
+      {
+        "assignment": {
+          "Agent 1": "A",
+          "Agent 2": "B",
+          "Agent 3": "C",
+          "Agent 4": "D"
+        },
+        "makespan": 8
+      },
+      {
+        "assignment": {
+          "Agent 1": "A",
+          "Agent 2": "B",
+          "Agent 3": "D",
+          "Agent 4": "C"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "A",
+          "Agent 2": "C",
+          "Agent 3": "B",
+          "Agent 4": "D"
+        },
+        "makespan": 9
+      },
+      {
+        "assignment": {
+          "Agent 1": "A",
+          "Agent 2": "C",
+          "Agent 3": "D",
+          "Agent 4": "B"
+        },
+        "makespan": 9
+      },
+      {
+        "assignment": {
+          "Agent 1": "A",
+          "Agent 2": "D",
+          "Agent 3": "B",
+          "Agent 4": "C"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "A",
+          "Agent 2": "D",
+          "Agent 3": "C",
+          "Agent 4": "B"
+        },
+        "makespan": 9
+      },
+      {
+        "assignment": {
+          "Agent 1": "B",
+          "Agent 2": "A",
+          "Agent 3": "C",
+          "Agent 4": "D"
+        },
+        "makespan": 8
+      },
+      {
+        "assignment": {
+          "Agent 1": "B",
+          "Agent 2": "A",
+          "Agent 3": "D",
+          "Agent 4": "C"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "B",
+          "Agent 2": "C",
+          "Agent 3": "A",
+          "Agent 4": "D"
+        },
+        "makespan": 9
+      },
+      {
+        "assignment": {
+          "Agent 1": "B",
+          "Agent 2": "C",
+          "Agent 3": "D",
+          "Agent 4": "A"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "B",
+          "Agent 2": "D",
+          "Agent 3": "A",
+          "Agent 4": "C"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "B",
+          "Agent 2": "D",
+          "Agent 3": "C",
+          "Agent 4": "A"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "C",
+          "Agent 2": "A",
+          "Agent 3": "B",
+          "Agent 4": "D"
+        },
+        "makespan": 8
+      },
+      {
+        "assignment": {
+          "Agent 1": "C",
+          "Agent 2": "A",
+          "Agent 3": "D",
+          "Agent 4": "B"
+        },
+        "makespan": 7
+      },
+      {
+        "assignment": {
+          "Agent 1": "C",
+          "Agent 2": "B",
+          "Agent 3": "A",
+          "Agent 4": "D"
+        },
+        "makespan": 8
+      },
+      {
+        "assignment": {
+          "Agent 1": "C",
+          "Agent 2": "B",
+          "Agent 3": "D",
+          "Agent 4": "A"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "C",
+          "Agent 2": "D",
+          "Agent 3": "A",
+          "Agent 4": "B"
+        },
+        "makespan": 9
+      },
+      {
+        "assignment": {
+          "Agent 1": "C",
+          "Agent 2": "D",
+          "Agent 3": "B",
+          "Agent 4": "A"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "D",
+          "Agent 2": "A",
+          "Agent 3": "B",
+          "Agent 4": "C"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "D",
+          "Agent 2": "A",
+          "Agent 3": "C",
+          "Agent 4": "B"
+        },
+        "makespan": 7
+      },
+      {
+        "assignment": {
+          "Agent 1": "D",
+          "Agent 2": "B",
+          "Agent 3": "A",
+          "Agent 4": "C"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "D",
+          "Agent 2": "B",
+          "Agent 3": "C",
+          "Agent 4": "A"
+        },
+        "makespan": 10
+      },
+      {
+        "assignment": {
+          "Agent 1": "D",
+          "Agent 2": "C",
+          "Agent 3": "A",
+          "Agent 4": "B"
+        },
+        "makespan": 9
+      },
+      {
+        "assignment": {
+          "Agent 1": "D",
+          "Agent 2": "C",
+          "Agent 3": "B",
+          "Agent 4": "A"
+        },
+        "makespan": 10
+      }
+    ],
+    "chosen": {
+      "assignment": {
+        "Agent 1": "D",
+        "Agent 2": "A",
+        "Agent 3": "C",
+        "Agent 4": "B"
+      },
+      "makespan": 7
+    },
+    "no_equilibrium_fallback": false,
+    "distances": {
+      "Agent 1": {
+        "A": 7,
+        "B": 1,
+        "C": 7,
+        "D": 3
+      },
+      "Agent 2": {
+        "A": 7,
+        "B": 7,
+        "C": 9,
+        "D": 9
+      },
+      "Agent 3": {
+        "A": 3,
+        "B": 5,
+        "C": 5,
+        "D": 5
+      },
+      "Agent 4": {
+        "A": 10,
+        "B": 4,
+        "C": 10,
+        "D": 8
+      }
+    },
+    "llm_rankings": {
+      "Agent 1": [
+        "D",
+        "A",
+        "C",
+        "B"
+      ],
+      "Agent 2": [
+        "B"
+      ],
+      "Agent 3": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "Agent 4": [
+        "B",
+        "D",
+        "A",
+        "C"
+      ]
+    }
+  }
+]

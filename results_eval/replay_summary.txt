@@ -1,0 +1,21 @@
+Replay of the recorded conflicts in results_eval/agent_rank_once_game_llm_matching_conflicts.csv
+Round 1 only; no makespan.
+
+current (logged run)
+  all        n= 59  agreement  46 ( 78.0%)  best agent  39 ( 66.1%)  mean s +0.61  unparsed 5
+  2 agents   n= 47  agreement  38 ( 80.9%)  best agent  31 ( 66.0%)  mean s +0.60  unparsed 0
+  3+ agents  n= 12  agreement   8 ( 66.7%)  best agent   8 ( 66.7%)  mean s +0.64  unparsed 5
+
+variant A
+  all        n= 59  agreement  57 ( 96.6%)  best agent  34 ( 57.6%)  mean s +0.78  unparsed 0
+  2 agents   n= 47  agreement  46 ( 97.9%)  best agent  24 ( 51.1%)  mean s +0.75  unparsed 0
+  3+ agents  n= 12  agreement  11 ( 91.7%)  best agent  10 ( 83.3%)  mean s +0.88  unparsed 0
+
+variant B
+  all        n= 59  agreement  40 ( 67.8%)  best agent  28 ( 47.5%)  mean s +0.36  unparsed 0
+  2 agents   n= 47  agreement  28 ( 59.6%)  best agent  17 ( 36.2%)  mean s +0.19  unparsed 0
+  3+ agents  n= 12  agreement  12 (100.0%)  best agent  11 ( 91.7%)  mean s +0.99  unparsed 0
+
+Note: the current prompt's numbers come from the original run, whose later
+conflicts depended on its own earlier answers; the variants answer the very
+same conflicts, so the comparison is like-for-like per conflict.
