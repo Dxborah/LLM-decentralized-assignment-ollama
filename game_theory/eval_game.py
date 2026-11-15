@@ -56,7 +56,7 @@ It is a copy of `tasks/eval_final.py`; differences are marked "# CHANGED" or
        al.: mean makespan, mean optimal makespan, performance gap, and the
        greedy baseline. Definitions: game_theory/README.md, "Metrics".
 
-   12. NEW (12 Nov) --prompt-variant current|A|B (matching form only):
+   12. NEW (12 Nov) --prompt-variant current|A|B|C (matching form only; C: 15 Nov):
        the wording of the matching prompt (see llm_player.py). "current" is
        the default and keeps the 10 Nov prompt and file names; A and B add
        a _A / _B suffix (agent_rank_once_game_llm_matching_A_*).
@@ -397,7 +397,7 @@ if __name__ == "__main__":
     parser.add_argument("--game", choices=FORMS, default="claimyield",
                         help="form of the conflict game: claimyield (default, original 5 Nov) "
                              "or matching (NEW 10 Nov: 'which agent should take it?')")
-    parser.add_argument("--prompt-variant", choices=["current", "A", "B"], default="current",
+    parser.add_argument("--prompt-variant", choices=["current", "A", "B", "C"], default="current",
                         help="NEW 12 Nov: wording of the matching prompt (matching form only)")
     parser.add_argument("--clash-factor", type=float, default=CLASH_FACTOR,
                         help="K = factor x grid size (default 0.75 -> 6 on 8x8)")
@@ -423,7 +423,7 @@ if __name__ == "__main__":
     os.makedirs("data", exist_ok=True)  # agents save grid.png here
     TRIALS_PER_CASE = args.trials
     if args.prompt_variant != "current" and args.game != "matching":
-        raise ValueError("--prompt-variant A/B needs --game matching")
+        raise ValueError("--prompt-variant A/B/C needs --game matching")
     key = task_key(args.decider, args.game, args.prompt_variant)
 
     # Load all YAML cases (CHANGED 11 Nov: numeric order, case_2 before case_10)

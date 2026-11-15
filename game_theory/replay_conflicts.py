@@ -16,6 +16,8 @@ agents coordinate on the identical conflicts.
 The variants (see llm_player.py):
     A   steps instead of negative payoffs, short one-line JSON answer
     B   A + the 2-agent payoffs as a grid + "the other agent sees this same table"
+    C   NEW 15 Nov: A, but 2-agent conflicts use the 3+ layout (agreed outcomes
+        only), + B's sentence, + "team_steps" in the JSON before the answer
 
 For each variant it writes
     results_eval/replay_<variant>.csv      one row per conflict, new answers
@@ -30,11 +32,16 @@ Metrics, all on round 1 (split all / 2 agents / 3+ agents):
     best agent      agreed AND the agreed agent gives the best team result
     mean s          the paper's score (0 = Nash level, +1 = optimum)
     unparsed        replies that could not be read
+    first-listed    NEW 15 Nov: of the agreements, how many were on the agent
+                    the prompt lists first (rotation 0: lowest index; rotation
+                    1: highest). Near 100% means the agents agree by list
+                    order, not by comparing the outcomes.
 
 Usage (repo root, venv active, LLM_BACKEND=ollama, OLLAMA_MODEL set):
     python -m game_theory.replay_conflicts --variants A        # ~10-15 min
     python -m game_theory.replay_conflicts --variants B        # later
     python -m game_theory.replay_conflicts --variants A B      # both
+    python -m game_theory.replay_conflicts --variants C        # NEW 15 Nov
     python -m game_theory.replay_conflicts --summary-only      # just redo the summary
 
 Nothing here changes any other file or result.
@@ -103,6 +110,14 @@ def evaluate(game, names):
     }
 
 
+def first_listed(players, rotation, names, agreed):
+    """NEW 15 Nov: 1 if the agents agreed on the agent the prompt lists first."""
+    if not agreed or not names:
+        return 0
+    first = players[0] if int(rotation) == 0 else players[-1]
+    return int(names[0] == first)
+
+
 def fmt_names(names):
     return " ".join("?" if n < 0 else f"A{n + 1}" for n in names)
 
@@ -147,9 +162,12 @@ def stats(items):
     ag = sum(x["agreed"] for x in items)
     be = sum(x["best_agent"] for x in items)
     un = sum(x["unparsed"] for x in items)
+    fl = sum(x.get("first_listed", 0) for x in items)          # NEW 15 Nov
     ms = f"{sum(s_vals) / len(s_vals):+.2f}" if s_vals else "n/a"
+    fl_pct = f"{100 * fl / ag:5.1f}%" if ag else "  n/a"
     return (f"n={n:3d}  agreement {ag:3d} ({100 * ag / n:5.1f}%)  "
-            f"best agent {be:3d} ({100 * be / n:5.1f}%)  mean s {ms}  unparsed {un}")
+            f"best agent {be:3d} ({100 * be / n:5.1f}%)  mean s {ms}  unparsed {un}  "
+            f"first-listed {fl:3d}/{ag:3d} ({fl_pct})")
 
 
 def summary(rows, grid_size, results_dir, csv_path):
@@ -160,17 +178,21 @@ def summary(rows, grid_size, results_dir, csv_path):
         game = rebuild_game(row, grid_size)
         names = parse_names(row["round1_names"], game.players) or [-1] * len(game.players)
         ev = evaluate(game, names)
-        ev.update(n_players=len(game.players), unparsed=int(row["parse_failures"] or 0))
+        ev.update(n_players=len(game.players), unparsed=int(row["parse_failures"] or 0),
+                  first_listed=first_listed(game.players, row["rotation"], names, ev["agreed"]))
         cur.append(ev)
     blocks["current (logged run)"] = cur
-    for v in ("A", "B"):
+    for v in ("A", "B", "C"):                     # C: NEW 15 Nov
         p = os.path.join(results_dir, f"replay_{v}.csv")
         if not os.path.exists(p):
             continue
         with open(p) as f:
             items = []
             for r in csv.DictReader(f):
+                pl = [int(p.lstrip("A")) - 1 for p in r["players"].split()]
+                nm = parse_names(r["names"].replace("?", "A0"), pl) or []
                 items.append({"n_players": len(r["players"].split()),
+                              "first_listed": first_listed(pl, r["rotation"], nm, int(r["agreed"])),
                               "agreed": int(r["agreed"]), "best_agent": int(r["best_agent"]),
                               "s": None if r["s"] in ("", "None") else float(r["s"]),
                               "unparsed": int(r["unparsed"])})
@@ -187,6 +209,8 @@ def summary(rows, grid_size, results_dir, csv_path):
     lines.append("Note: the current prompt's numbers come from the original run, whose later")
     lines.append("conflicts depended on its own earlier answers; the variants answer the very")
     lines.append("same conflicts, so the comparison is like-for-like per conflict.")
+    lines.append("first-listed = agreements on the agent the prompt lists first (near 100% means")
+    lines.append("the agents agree by list order rather than by comparing outcomes).")
     text = "\n".join(lines)
     with open(os.path.join(results_dir, "replay_summary.txt"), "w") as f:
         f.write(text + "\n")
@@ -195,7 +219,7 @@ def summary(rows, grid_size, results_dir, csv_path):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[1])
-    ap.add_argument("--variants", nargs="+", choices=["A", "B"], default=["A"])
+    ap.add_argument("--variants", nargs="+", choices=["A", "B", "C"], default=["A"])
     ap.add_argument("--conflicts", default=DEFAULT_CSV, help="matching conflicts CSV to replay")
     ap.add_argument("--grid-size", type=int, default=20, help="grid of those maps (sets K, D)")
     ap.add_argument("--limit", type=int, default=None, help="only the first N conflicts (testing)")

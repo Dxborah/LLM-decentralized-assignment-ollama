@@ -276,7 +276,7 @@ def play_conflict(game, decider, rotation=0, ask_fn=None, form="claimyield",
     if form == "matching":                       # NEW 10 Nov
         return play_matching_conflict(game, decider, rotation, ask_fn, prompt_variant)
     if prompt_variant != "current":              # NEW 12 Nov
-        raise ValueError("prompt variants A/B exist only for the matching form")
+        raise ValueError("prompt variants A/B/C exist only for the matching form")
     # ---- ORIGINAL claim/yield form (unchanged from 5 Nov) ----
     bench = game.benchmarks()
 

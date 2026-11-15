@@ -27,6 +27,14 @@ Prompt variants of the matching form (NEW 12 Nov, --prompt-variant):
              the other agent's) + one sentence that the table is common
              knowledge. 3+ agents keep A's list (a grid would be 27+ cells)
              plus the same sentence.
+    C        NEW 15 Nov. A's presentation for every conflict size, but the
+             2-agent case uses the 3+ layout: only the agreed outcomes
+             ("you both name Agent w -> T steps") plus one line for the
+             disagreements, so no single answer pair is listed first. Adds
+             B's common-knowledge sentence, and the JSON asks for the team
+             time under each agreed choice ("team_steps") before the answer.
+             Motivation: in the A replay, every 2-agent agreement (46/46)
+             was on whichever agent the prompt listed first.
     None of them hints at which agent is better; the game is unchanged.
 
 How a conflict is asked (design doc, "Deciders and the conflict prompt"):
@@ -226,7 +234,7 @@ def ask_agent(game, agent, rotation=0):
 # ===========================================================================
 # NEW (10 Nov): matching form - "which agent should take it?"
 # ===========================================================================
-PROMPT_VARIANTS = ("current", "A", "B")     # NEW 12 Nov; "current" = 10 Nov prompt
+PROMPT_VARIANTS = ("current", "A", "B", "C")     # NEW 12 Nov (C: 15 Nov); "current" = 10 Nov prompt
 
 
 def build_matching_prompt(game, agent, rotation=0, variant="current"):
@@ -345,7 +353,7 @@ def build_matching_prompt(game, agent, rotation=0, variant="current"):
 
 def build_matching_prompt_variant(game, agent, rotation, variant):
     """
-    NEW (12 Nov): prompt variants A and B of the matching form.
+    NEW (12 Nov): prompt variants A and B of the matching form; C added 15 Nov.
 
     Same facts, same payoffs, same rotation as the current prompt; only the
     presentation changes (see the module docstring). Payoffs are shown as
@@ -361,6 +369,14 @@ def build_matching_prompt_variant(game, agent, rotation, variant):
     Variant B, 2 agents: the four outcomes as a grid, plus
         "Agent 2 sees exactly this same table, knows that you see it too, and is
          also trying to name the same agent as you."
+    Variant C (NEW 15 Nov), 2 agents:
+          you both name Agent 1 -> 28 steps
+          you both name Agent 2 -> 20 steps
+          any disagreement fails: if you both named yourselves, you both head there
+          and clash -> 35 steps; if you both named the other, nobody takes it -> 35.5 steps
+        + B's sentence, and the JSON reply starts with
+        "team_steps": {"Agent 1": ..., "Agent 2": ...}. 3+ agents: A's list +
+        B's sentence + the same JSON. Only "answer" is parsed.
     """
     from game_theory.conflict_games import MatchingConflictGame
     mgame = MatchingConflictGame(game)
@@ -435,7 +451,7 @@ def build_matching_prompt_variant(game, agent, rotation, variant):
                     note = "disagree: nobody"
                 cells.append(f"{steps(prof)} ({note})")
             lines.append(f"| You name Agent {x + 1} | " + " | ".join(cells) + " |")
-    elif two:
+    elif two and variant == "A":
         other = others[0]
         lines.append("The whole team shares one result: the team's finishing time, in steps")
         lines.append("(the number of steps until every agent is done; lower is better):")
@@ -450,6 +466,20 @@ def build_matching_prompt_variant(game, agent, rotation, variant):
                 note = "disagree: nobody " + ("takes it" if game.kind == "goal" else "moves")
             lines.append(f"  you name Agent {mine + 1}, Agent {other + 1} names Agent {theirs + 1} "
                          f"-> {steps(prof)} steps   ({note})")
+    elif two:                                     # NEW 15 Nov: variant C, 2 agents
+        other = others[0]
+        lines.append("The whole team shares one result: the team's finishing time, in steps")
+        lines.append("(the number of steps until every agent is done; lower is better):")
+        for w in cands:
+            lines.append(f"  you both name Agent {w + 1} -> {steps(tuple(w for _ in game.players))} steps")
+        clash = steps(tuple({agent: agent, other: other}[i] for i in game.players))
+        nobody = steps(tuple({agent: other, other: agent}[i] for i in game.players))
+        lines += [
+            "  any disagreement fails: if you both named yourselves, you both "
+            + ("head there" if game.kind == "goal" else "try to step in"),
+            f"  and clash -> {clash} steps; if you both named the other, nobody "
+            + ("takes it" if game.kind == "goal" else "moves") + f" -> {nobody} steps",
+        ]
     else:
         lines.append("The whole team shares one result: the team's finishing time, in steps")
         lines.append("(the number of steps until every agent is done; lower is better):")
@@ -462,13 +492,23 @@ def build_matching_prompt_variant(game, agent, rotation, variant):
             f"  it is wasted (about {_fmt(game.D)} extra steps). Worst case -> {_fmt(worst)} steps",
         ]
 
-    if variant == "B":
+    if variant in ("B", "C"):                     # C: NEW 15 Nov
         who = labels[0] if two else "The other agents"
         verb_see = "sees" if two else "see"
         lines += ["", f"{who} {verb_see} exactly this same information, know{'s' if two else ''} that you see it too, "
                       f"and {'is' if two else 'are'} also trying to name the same agent as you."]
 
     opts = " or ".join(f'"Agent {w + 1}"' for w in cands)
+    if variant == "C":                            # NEW 15 Nov
+        times = ", ".join(f'"Agent {w + 1}": ...' for w in cands)
+        lines += [
+            "",
+            f"Which agent should {verb} {thing}? Reply with JSON only, on a single line. First give the",
+            f"team finishing time if you {'both' if two else 'all'} name each agent, "
+            "then at most 2 sentences of reasoning:",
+            f'{{"team_steps": {{{times}}}, "reasoning": "...", "answer": {opts}}}',
+        ]
+        return "\n".join(lines)
     lines += [
         "",
         f"Which agent should {verb} {thing}? Reply with JSON only, on a single line, with",

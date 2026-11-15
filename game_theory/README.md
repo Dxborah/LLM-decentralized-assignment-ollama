@@ -63,6 +63,15 @@ variants hints at which agent is better.
 | `current` | **Default.** The 10 Nov matching prompt, unchanged, same file names |
 | `A` | Team finishing time in steps (lower is better) instead of negative payoffs; one-line JSON answer with at most 2 sentences of reasoning |
 | `B` | A, plus the 2-agent outcomes as a grid (rows = your answer, columns = the other agent's) and one sentence saying the other agent sees the same table. 3+ agents keep A's list plus that sentence |
+| `C` | **New 15 Nov.** A, but 2-agent conflicts use the 3+ layout: only the agreed outcomes ("you both name Agent w -> T steps") plus one line for the two disagreements. Adds B's "sees the same information" sentence, and the JSON asks for `team_steps` (the team time under each agreed choice) before `answer` |
+
+**Why C (15 Nov):** in the A replay, all 46 two-agent agreements were on the
+agent the prompt listed first, so A's 97.9% agreement came from list order,
+and its best-agent rate (51%) was a coin flip. A's 3+ layout did not have
+this problem (4 of 11 agreements on the first-listed agent, 83% best agent),
+and B's sentence helped 3+ conflicts (+0.88 -> +0.99). The replay summary now
+reports **first-listed**: of the agreements, how many were on the agent listed
+first. For C, it should fall well below 100% on 2-agent conflicts.
 
 **Quick test (about 10–15 min per variant):** re-ask the 59 conflicts of the
 20 × 20 matching run, with the exact same games, and compare round 1 with the
@@ -71,12 +80,13 @@ current prompt. No maps are simulated, so there is no makespan here.
 ```bash
 python -m game_theory.replay_conflicts --variants A    # now
 python -m game_theory.replay_conflicts --variants B    # later; the summary then shows both
+python -m game_theory.replay_conflicts --variants C    # new 15 Nov; the summary shows all three
 ```
 
-It writes `results_eval/replay_A.csv` / `replay_B.csv` (one row per conflict:
+It writes `results_eval/replay_A.csv` / `replay_B.csv` / `replay_C.csv` (one row per conflict:
 old and new names, agreed, best agent, *s*, each agent's reasoning) and
 `results_eval/replay_summary.txt` (agreement, agreed-on-best-agent, mean *s*
-and unparsed replies, for all / 2-agent / 3+-agent conflicts). Use
+unparsed replies and first-listed, for all / 2-agent / 3+-agent conflicts). Use
 `--conflicts <file>` to replay another run's conflicts CSV and `--limit 5` for
 a short test.
 
@@ -86,7 +96,7 @@ a short test.
 python -m game_theory.eval_game --decider llm --game matching --prompt-variant A --config-dir configs/eval --cases case_1 case_53 case_13 case_36 case_5 case_27 case_3 case_4 case_2 case_9 --yes
 ```
 
-Its files get an extra `_A` / `_B` suffix (`agent_rank_once_game_llm_matching_A_*`).
+Its files get an extra `_A` / `_B` / `_C` suffix (`agent_rank_once_game_llm_matching_A_*`).
 
 ## The 100 random maps (`configs/eval/`)
 

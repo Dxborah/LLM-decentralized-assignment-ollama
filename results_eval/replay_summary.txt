@@ -2,20 +2,27 @@ Replay of the recorded conflicts in results_eval/agent_rank_once_game_llm_matchi
 Round 1 only; no makespan.
 
 current (logged run)
-  all        n= 59  agreement  46 ( 78.0%)  best agent  39 ( 66.1%)  mean s +0.61  unparsed 5
-  2 agents   n= 47  agreement  38 ( 80.9%)  best agent  31 ( 66.0%)  mean s +0.60  unparsed 0
-  3+ agents  n= 12  agreement   8 ( 66.7%)  best agent   8 ( 66.7%)  mean s +0.64  unparsed 5
+  all        n= 59  agreement  46 ( 78.0%)  best agent  39 ( 66.1%)  mean s +0.61  unparsed 5  first-listed  31/ 46 ( 67.4%)
+  2 agents   n= 47  agreement  38 ( 80.9%)  best agent  31 ( 66.0%)  mean s +0.60  unparsed 0  first-listed  28/ 38 ( 73.7%)
+  3+ agents  n= 12  agreement   8 ( 66.7%)  best agent   8 ( 66.7%)  mean s +0.64  unparsed 5  first-listed   3/  8 ( 37.5%)
 
 variant A
-  all        n= 59  agreement  57 ( 96.6%)  best agent  34 ( 57.6%)  mean s +0.78  unparsed 0
-  2 agents   n= 47  agreement  46 ( 97.9%)  best agent  24 ( 51.1%)  mean s +0.75  unparsed 0
-  3+ agents  n= 12  agreement  11 ( 91.7%)  best agent  10 ( 83.3%)  mean s +0.88  unparsed 0
+  all        n= 59  agreement  57 ( 96.6%)  best agent  34 ( 57.6%)  mean s +0.78  unparsed 0  first-listed  50/ 57 ( 87.7%)
+  2 agents   n= 47  agreement  46 ( 97.9%)  best agent  24 ( 51.1%)  mean s +0.75  unparsed 0  first-listed  46/ 46 (100.0%)
+  3+ agents  n= 12  agreement  11 ( 91.7%)  best agent  10 ( 83.3%)  mean s +0.88  unparsed 0  first-listed   4/ 11 ( 36.4%)
 
 variant B
-  all        n= 59  agreement  40 ( 67.8%)  best agent  28 ( 47.5%)  mean s +0.36  unparsed 0
-  2 agents   n= 47  agreement  28 ( 59.6%)  best agent  17 ( 36.2%)  mean s +0.19  unparsed 0
-  3+ agents  n= 12  agreement  12 (100.0%)  best agent  11 ( 91.7%)  mean s +0.99  unparsed 0
+  all        n= 59  agreement  40 ( 67.8%)  best agent  28 ( 47.5%)  mean s +0.36  unparsed 0  first-listed  28/ 40 ( 70.0%)
+  2 agents   n= 47  agreement  28 ( 59.6%)  best agent  17 ( 36.2%)  mean s +0.19  unparsed 0  first-listed  24/ 28 ( 85.7%)
+  3+ agents  n= 12  agreement  12 (100.0%)  best agent  11 ( 91.7%)  mean s +0.99  unparsed 0  first-listed   4/ 12 ( 33.3%)
+
+variant C
+  all        n= 59  agreement  56 ( 94.9%)  best agent  55 ( 93.2%)  mean s +0.91  unparsed 0  first-listed  28/ 56 ( 50.0%)
+  2 agents   n= 47  agreement  47 (100.0%)  best agent  46 ( 97.9%)  mean s +0.99  unparsed 0  first-listed  25/ 47 ( 53.2%)
+  3+ agents  n= 12  agreement   9 ( 75.0%)  best agent   9 ( 75.0%)  mean s +0.63  unparsed 0  first-listed   3/  9 ( 33.3%)
 
 Note: the current prompt's numbers come from the original run, whose later
 conflicts depended on its own earlier answers; the variants answer the very
 same conflicts, so the comparison is like-for-like per conflict.
+first-listed = agreements on the agent the prompt lists first (near 100% means
+the agents agree by list order rather than by comparing outcomes).
