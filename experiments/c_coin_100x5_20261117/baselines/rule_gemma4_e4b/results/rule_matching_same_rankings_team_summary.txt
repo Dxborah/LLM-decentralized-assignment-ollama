@@ -1,0 +1,33 @@
+Evaluated 500 trials across 100 scenarios
+
+Task level
+  Optimal (Steps == TrueOptimal): 362/500
+  Average optimality gap (finished trials): 9.7%
+  Failures (max steps): 4/500
+  Agents made to wait by cell conflicts: 20
+
+Paper metrics (Ismayilov et al.; finished trials only, see README 'Metrics')
+  Mean makespan: 14.37
+  Mean optimal makespan: 13.17
+  Performance gap (mean makespan - mean optimal): 1.20 steps (9.1%)
+  Greedy baseline, mean makespan on these maps: 16.11 (2 greedy failures left out)
+
+Game level (round 1, s: 0 = Nash, +1 = optimum, -1 = worst)
+  Form: matching - agreement rate (everyone named the same agent): 100.0%
+  Conflicts: 657 (goal 637, cell 20, replan 0)
+  Mean s, all: +0.81  (scored: 622)
+  Mean s, goal / cell / replan: +0.81 / +0.76 / n/a
+  Mean s, easy (gap >= 2) / hard: +0.75 (419) / +0.94 (238)
+  Coordination rate (exactly one claim): 100.0%
+  Clash rate (2+ claims in round 1): 0.0%
+  All-yield rate (nobody claims in round 1): 0.0%
+  Nash fallbacks after the replay: 0
+  Unparsed LLM replies (counted as naming nobody): 0
+
+Fair coin / uniform fallback (after two failed LLM rounds)
+  Coin fallbacks: 0/657 conflicts (0.0%)
+  Trials requiring a coin fallback: 0/500
+  Coin fallbacks, goal / cell / replan: 0 / 0 / 0
+  Two-agent flips / larger uniform draws: 0 / 0
+  Each conflicting agent has probability 1 / number of players.
+  Random fallbacks are not counted as LLM agreement.

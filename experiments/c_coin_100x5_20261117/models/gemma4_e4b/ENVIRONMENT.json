@@ -1,0 +1,13 @@
+{
+  "LLM_BACKEND": "ollama",
+  "OLLAMA_MODEL": "gemma4:e4b",
+  "OLLAMA_HOST": "http://127.0.0.1:11435",
+  "OLLAMA_BASE_URL": "http://127.0.0.1:11435/v1",
+  "OLLAMA_MODELS": "/usr/local/fastdata2/emeriaux/llm-vision-20261117/models",
+  "OLLAMA_NUM_CTX": "8192",
+  "MPLBACKEND": "Agg",
+  "RESULTS_DIR": "/home/thalassa/emeriaux/llm_assignment_multimodel_runs/vision_C_coin_100x5_20261117_183334/jobs/gemma4_e4b/results",
+  "PYTHONNOUSERSITE": "1",
+  "PYTHONUNBUFFERED": "1",
+  "PYTHONPATH": "/home/thalassa/emeriaux/llm_assignment_multimodel_runs/vision_C_coin_100x5_20261117_183334/jobs/gemma4_e4b/source"
+}

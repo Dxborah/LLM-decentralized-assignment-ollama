@@ -1,0 +1,19 @@
+{
+  "id": "rule_ministral3_8b_instruct_multiline_4k",
+  "host": "Hawaii",
+  "model": "ministral-3:8b",
+  "kind": "paired_rule",
+  "worker_pid": 1416466,
+  "boot_id": "60626dc5-3731-492e-9f6e-458d7ab97042",
+  "phase": "complete",
+  "started_utc": "2026-11-18T22:21:30.416703+00:00",
+  "updated_utc": "2026-11-19T00:34:12.724142+00:00",
+  "completed_trials": 500,
+  "expected_trials": 500,
+  "worlds_complete": 100,
+  "task_failures": 7,
+  "model_calls": 0,
+  "source_job": "ministral3_8b_instruct_multiline_4k",
+  "returncode": 0,
+  "finished_utc": "2026-11-19T00:34:12.700526+00:00"
+}

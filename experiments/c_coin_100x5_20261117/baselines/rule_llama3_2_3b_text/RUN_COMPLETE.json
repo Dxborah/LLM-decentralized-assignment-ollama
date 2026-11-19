@@ -1,0 +1,19 @@
+{
+  "id": "rule_llama3_2_3b_text",
+  "host": "Hawaii",
+  "model": "llama3.2:3b",
+  "kind": "paired_rule",
+  "worker_pid": 1416366,
+  "boot_id": "60626dc5-3731-492e-9f6e-458d7ab97042",
+  "phase": "complete",
+  "started_utc": "2026-11-18T22:21:01.838220+00:00",
+  "updated_utc": "2026-11-18T22:21:20.590257+00:00",
+  "completed_trials": 500,
+  "expected_trials": 500,
+  "worlds_complete": 100,
+  "task_failures": 5,
+  "model_calls": 0,
+  "source_job": "llama3_2_3b_text",
+  "returncode": 0,
+  "finished_utc": "2026-11-18T22:21:20.589530+00:00"
+}

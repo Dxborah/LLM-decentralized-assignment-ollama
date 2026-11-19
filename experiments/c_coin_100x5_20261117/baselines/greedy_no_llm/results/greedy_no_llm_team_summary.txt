@@ -1,0 +1,24 @@
+Evaluated 500 trials across 100 scenarios
+
+Task level
+  Optimal (Steps == TrueOptimal): 205/500
+  Average optimality gap (finished trials): 23.9%
+  Failures (max steps): 10/500
+  Agents made to wait by cell conflicts: 25
+
+Paper metrics (Ismayilov et al.; finished trials only, see README 'Metrics')
+  Mean makespan: 16.11
+  Mean optimal makespan: 13.17
+  Performance gap (mean makespan - mean optimal): 2.94 steps (22.3%)
+  Greedy baseline, mean makespan on these maps: 16.11 (2 greedy failures left out)
+
+Game level (round 1, s: 0 = Nash, +1 = optimum, -1 = worst)
+  Conflicts: 0 (goal 0, cell 0, replan 0)
+  Mean s, all: n/a  (scored: 0)
+  Mean s, goal / cell / replan: n/a / n/a / n/a
+  Mean s, easy (gap >= 2) / hard: n/a (0) / n/a (0)
+  Coordination rate (exactly one claim): n/a
+  Clash rate (2+ claims in round 1): n/a
+  All-yield rate (nobody claims in round 1): n/a
+  Nash fallbacks after the replay: 0
+  Unparsed LLM replies (counted as YIELD): 0

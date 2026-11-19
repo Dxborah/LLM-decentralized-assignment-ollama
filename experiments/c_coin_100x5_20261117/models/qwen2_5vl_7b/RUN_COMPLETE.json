@@ -1,0 +1,23 @@
+{
+  "host": "artemis",
+  "model": "qwen2.5vl:7b",
+  "worker_pid": 867082,
+  "expected_trials": 500,
+  "started_utc": "2026-11-17T23:47:47.886434+00:00",
+  "boot_id": "64315ad8-4fb5-4c54-92ea-7f85e8f774ea",
+  "phase": "complete",
+  "updated_utc": "2026-11-18T06:34:12.355160+00:00",
+  "elapsed_seconds": 24384,
+  "completed_trials": 500,
+  "worlds_complete": 100,
+  "task_failures": 0,
+  "conflicts": 1497,
+  "coin_fallbacks": 13,
+  "nash_fallbacks": 0,
+  "round1_agreements": 1435,
+  "round2_agreements": 49,
+  "server_pid": 867086,
+  "evaluation_pid": 867410,
+  "returncode": 0,
+  "finished_utc": "2026-11-18T06:34:12.351557+00:00"
+}

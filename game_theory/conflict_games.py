@@ -92,6 +92,7 @@ the worst PURE equilibrium (recorded as "mixed_checked": False).
 """
 
 import itertools
+import random
 
 from game_theory.game import pure_nash_equilibria, EPS
 
@@ -99,6 +100,7 @@ CLAIM, YIELD = "CLAIM", "YIELD"
 ACTIONS = (CLAIM, YIELD)
 DECIDERS = ("rule", "nash", "llm")
 FORMS = ("claimyield", "matching")   # NEW 10 Nov; "claimyield" = original
+FALLBACKS = ("nash", "coin")
 
 # K and D as a fraction of the grid size (decided 5 Nov: scale with the grid,
 # same rule for both). 8x8 -> K = 6, D = 3; 20x20 -> K = 15, D = 7.5.
@@ -249,7 +251,7 @@ class TeamConflictGame:
 # Playing a conflict
 # ===========================================================================
 def play_conflict(game, decider, rotation=0, ask_fn=None, form="claimyield",
-                  prompt_variant="current"):
+                  prompt_variant="current", fallback="nash", rng=None):
     """
     Resolve one conflict with the chosen decider, applying Option A.
 
@@ -273,8 +275,13 @@ def play_conflict(game, decider, rotation=0, ask_fn=None, form="claimyield",
         raise ValueError(f"decider must be one of {DECIDERS}")
     if form not in FORMS:
         raise ValueError(f"form must be one of {FORMS}")
+    if fallback not in FALLBACKS:
+        raise ValueError(f"fallback must be one of {FALLBACKS}")
     if form == "matching":                       # NEW 10 Nov
-        return play_matching_conflict(game, decider, rotation, ask_fn, prompt_variant)
+        return play_matching_conflict(game, decider, rotation, ask_fn, prompt_variant,
+                                      fallback=fallback, rng=rng)
+    if fallback != "nash":
+        raise ValueError("coin fallback is supported for the matching form")
     if prompt_variant != "current":              # NEW 12 Nov
         raise ValueError("prompt variants A/B/C exist only for the matching form")
     # ---- ORIGINAL claim/yield form (unchanged from 5 Nov) ----
@@ -464,14 +471,17 @@ class MatchingConflictGame:
         return min(agreements, key=lambda p: (-self.payoff(p), p[0]))
 
 
-def play_matching_conflict(game, decider, rotation=0, ask_fn=None, prompt_variant="current"):
+def play_matching_conflict(game, decider, rotation=0, ask_fn=None, prompt_variant="current",
+                           fallback="nash", rng=None):
     """
     NEW (10 Nov): resolve one conflict in the matching form.
 
     Same deciders and the same Option A as the claim/yield form:
         round 1 by the decider; if the players DISAGREE, round 2 with the
         order of the candidate agents in the prompt reversed; if they
-        disagree again, the nash decider settles it. Each failed round costs
+        disagree again, the selected fallback settles it. A coin fallback
+        selects each conflicting agent with probability 1 / number of players,
+        regardless of its index or payoff. Each failed round costs
         one waiting step (applied by the caller, as in claim/yield).
 
     Returns (final, record) like play_conflict. `final` is a CLAIM/YIELD
@@ -480,6 +490,8 @@ def play_matching_conflict(game, decider, rotation=0, ask_fn=None, prompt_varian
     the claim/yield record plus "form", "round1_names", "final_names" and
     "agreed"; for comparability "coordinated" = agreed.
     """
+    if fallback not in FALLBACKS:
+        raise ValueError(f"fallback must be one of {FALLBACKS}")
     mgame = MatchingConflictGame(game)
     bench = mgame.benchmarks()
 
@@ -513,6 +525,7 @@ def play_matching_conflict(game, decider, rotation=0, ask_fn=None, prompt_varian
 
     first, parse_failures = one_round(rotation)
     final_names, rounds, nash_fallback = first, 0, False
+    coin_fallback, fallback_winner, second = False, None, None
     if failed(first):
         rounds = 1
         second, pf2 = one_round(1 - rotation)
@@ -520,8 +533,18 @@ def play_matching_conflict(game, decider, rotation=0, ask_fn=None, prompt_varian
         final_names = second
         if failed(second):
             rounds = 2
-            final_names = mgame.nash_names()
-            nash_fallback = True
+            if fallback == "coin":
+                fallback_winner = (rng if rng is not None else random).choice(tuple(game.players))
+                final_names = tuple(fallback_winner for _ in game.players)
+                coin_fallback = True
+                print(f"COIN_FALLBACK kind={game.kind} subject={game.subject} "
+                      f"players={[i + 1 for i in game.players]} "
+                      f"winner=Agent{fallback_winner + 1} probability={1 / len(game.players):.8g}",
+                      flush=True)
+            else:
+                final_names = mgame.nash_names()
+                nash_fallback = True
+                fallback_winner = mgame.winner(final_names)
     final = mgame.to_actions(final_names)
 
     def fmt(names):
@@ -556,6 +579,13 @@ def play_matching_conflict(game, decider, rotation=0, ask_fn=None, prompt_varian
         "coordinated": int(agreed),
         "clash_rounds": rounds,
         "nash_fallback": int(nash_fallback),
+        "fallback_policy": fallback,
+        "coin_fallback": int(coin_fallback),
+        "fallback_winner": "" if fallback_winner is None else f"A{fallback_winner + 1}",
+        "coin_candidates": fmt(game.players) if coin_fallback else "",
+        "coin_win_probability": 1 / len(game.players) if coin_fallback else "",
+        "round2_names": fmt(second) if second is not None else "",
+        "round2_agreed": "" if second is None else int(mgame.winner(second) is not None),
         "parse_failures": parse_failures,
         "mixed_checked": int(bench["mixed_checked"]),
         "llm_calls": calls,     # NEW 10 Nov: reasoning log (not a CSV column)

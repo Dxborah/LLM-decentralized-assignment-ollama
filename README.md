@@ -10,6 +10,10 @@ We compare **classic heuristics**, **optimal centralized solvers**, **human stra
 
 ## Features
 
+The completed **100 worlds × 5 trials** benchmark, including seven models,
+paired rule controls, raw reasoning/conflict/movement logs, and Excel/CSV tables,
+is available in [experiments/c_coin_100x5_20261117](experiments/c_coin_100x5_20261117/README.md).
+
 * **Multi-agent grid-world simulation** (configurable grid size, obstacles, agents, goals)
 * **Decentralized assignment protocols** with minimal communication (goal ranking exchange only)
 * **Automated evaluation** of human, heuristic, LLM, and optimal assignment strategies

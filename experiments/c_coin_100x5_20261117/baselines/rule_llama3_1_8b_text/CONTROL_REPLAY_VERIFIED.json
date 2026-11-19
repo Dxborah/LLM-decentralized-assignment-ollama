@@ -1,0 +1,44 @@
+{
+  "verified_utc": "2026-11-18T22:21:03.037783+00:00",
+  "source_outcomes_match": true,
+  "source_trajectories_match": true,
+  "controls": [
+    {
+      "Case": "case_1",
+      "Trial": 1,
+      "Steps": 28,
+      "Failed": false,
+      "conflicts_replayed": 1,
+      "moves_match": true,
+      "rankings_sha256": "1cce257c6bff6275e7a9f9fa4388d737f9fd51fffed07bcea58a5e746ab967ca"
+    },
+    {
+      "Case": "case_2",
+      "Trial": 1,
+      "Steps": 19,
+      "Failed": false,
+      "conflicts_replayed": 12,
+      "moves_match": true,
+      "rankings_sha256": "127e688786bd95eebf14c8ab77594885c7a64b4110fb50415e1a2866d99b0f36"
+    },
+    {
+      "Case": "case_10",
+      "Trial": 2,
+      "Steps": 26,
+      "Failed": false,
+      "conflicts_replayed": 6,
+      "moves_match": true,
+      "rankings_sha256": "578b31361fb41137f56f556be327b210ce8a4759a5946f735be324ea69f426d0"
+    },
+    {
+      "Case": "case_16",
+      "Trial": 1,
+      "Steps": 29,
+      "Failed": false,
+      "conflicts_replayed": 6,
+      "moves_match": true,
+      "rankings_sha256": "22ec7d4dc4f5037bb3712346daae17f604c608597bf6d65257392698d8c6b381"
+    }
+  ],
+  "model_calls": 0
+}

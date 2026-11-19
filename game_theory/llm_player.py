@@ -201,10 +201,23 @@ def call_model(prompt):
     backend = os.getenv("LLM_BACKEND", "ollama").lower()
     if backend == "ollama":
         import ollama  # imported here so tests can run without the package
+        options = {"temperature": 0, "num_ctx": int(os.getenv("OLLAMA_NUM_CTX", "8192"))}
+        if os.getenv("LLM_MAX_OUTPUT_TOKENS"):
+            limit = int(os.environ["LLM_MAX_OUTPUT_TOKENS"])
+            if limit <= 0:
+                raise ValueError("LLM_MAX_OUTPUT_TOKENS must be positive")
+            options["num_predict"] = limit
+        extra = {}
+        if os.getenv("LLM_THINK") is not None:
+            value = os.environ["LLM_THINK"].lower()
+            if value not in ("true", "false"):
+                raise ValueError("LLM_THINK must be true or false")
+            extra["think"] = value == "true"
         response = ollama.chat(
             model=os.getenv("OLLAMA_MODEL", "qwen2.5vl:7b"),
             messages=[{"role": "user", "content": prompt}],
-            options={"temperature": 0, "num_ctx": int(os.getenv("OLLAMA_NUM_CTX", "8192"))},
+            options=options,
+            **extra,
         )
         return response["message"]["content"].strip()
     from core.request import send_text_to_model_openai

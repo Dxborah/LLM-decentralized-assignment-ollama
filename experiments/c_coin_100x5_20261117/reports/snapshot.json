@@ -1,0 +1,70 @@
+{
+  "created_utc": "2026-11-19T15:26:45.428760+00:00",
+  "inputs": [
+    {
+      "path": "models/gemma4_e4b/results/agent_rank_once_game_llm_matching_C_coin_team_results.csv",
+      "sha256": "108d5a70cf4b615dc3ca215d6b75cc0d1162076612a52ea6f581fa945cf9de67"
+    },
+    {
+      "path": "models/gemma4_12b_nothink/results/agent_rank_once_game_llm_matching_C_coin_team_results.csv",
+      "sha256": "b0d67188997a1a3c82c17326330506e35791f79cfb24e7cf4314c62ab77e8cdf"
+    },
+    {
+      "path": "models/phi4_14b_text/results/agent_rank_once_game_llm_matching_C_coin_team_results.csv",
+      "sha256": "104acf74300a8db6fd2744c90d2200ab5cf0d686b9f6cd2a08fa1a2a22b0a330"
+    },
+    {
+      "path": "models/ministral3_8b_instruct_multiline_4k/results/agent_rank_once_game_llm_matching_C_coin_team_results.csv",
+      "sha256": "40ddeed8af9dc47dc22ef584771e9cca06b0f9f650a2bb435b77ccf004868365"
+    },
+    {
+      "path": "models/qwen2_5vl_7b/results/agent_rank_once_game_llm_matching_C_coin_team_results.csv",
+      "sha256": "02d92f7b6dc190497de173f107e03bb0ca3ca6b8903e26436a9e3ae6db222733"
+    },
+    {
+      "path": "models/llama3_2_3b_text/results/agent_rank_once_game_llm_matching_C_coin_team_results.csv",
+      "sha256": "6b36297df6053963a809f9c674d26cdd939bc22affe6341c3c409f2c504c6ebc"
+    },
+    {
+      "path": "models/llama3_1_8b_text/results/agent_rank_once_game_llm_matching_C_coin_team_results.csv",
+      "sha256": "a25ea55f92c7cc364c6f9e12aea4f9cbee2f842cad63f949ddd333d51be366f9"
+    },
+    {
+      "path": "baselines/rule_gemma4_e4b/results/rule_matching_same_rankings_team_results.csv",
+      "sha256": "9a5ec948adb964f62c576e0c5a192aebb549ff7f6ffc394fd3c0299989eb4362"
+    },
+    {
+      "path": "baselines/rule_gemma4_12b_nothink/results/rule_matching_same_rankings_team_results.csv",
+      "sha256": "707049e8b96ee0240a4c63795f01badbf7adcc5e3768cf43ad71cf91aac6c62c"
+    },
+    {
+      "path": "baselines/rule_phi4_14b_text/results/rule_matching_same_rankings_team_results.csv",
+      "sha256": "75e78420f811f14a6aeaaa3b665117a8a0aedc7dbdd475317dc1f585fc2c8ea6"
+    },
+    {
+      "path": "baselines/rule_ministral3_8b_instruct_multiline_4k/results/rule_matching_same_rankings_team_results.csv",
+      "sha256": "0c3c085c1d73f3b9b9b0dfdbb99378f8a33eb167662ab301f2e7f4ad4f0d990d"
+    },
+    {
+      "path": "baselines/rule_qwen2_5vl_7b/results/rule_matching_same_rankings_team_results.csv",
+      "sha256": "5a28c517ea27f7c70e3ab144c9d0581d00d5ea20e553e4cb8a3661c7093ea973"
+    },
+    {
+      "path": "baselines/rule_llama3_2_3b_text/results/rule_matching_same_rankings_team_results.csv",
+      "sha256": "cf57f9a86e5c7d0d17244135d66fd6857b7ca9ce87ac835670081793da63a123"
+    },
+    {
+      "path": "baselines/rule_llama3_1_8b_text/results/rule_matching_same_rankings_team_results.csv",
+      "sha256": "7153db0a4b976910e1926e762722ad4e7f6a1dbac97a6b33de7c31eb7204de47"
+    },
+    {
+      "path": "baselines/greedy_no_llm/results/greedy_no_llm_team_results.csv",
+      "sha256": "6c65dc7e7a27551e632c04cf0568b65289cea2fa3984814ff435fc78c6e00442"
+    }
+  ],
+  "configurations": 15,
+  "trials": 7500,
+  "worlds_per_configuration": 100,
+  "trials_per_world": 5,
+  "mean_true_optimal": 13.17
+}

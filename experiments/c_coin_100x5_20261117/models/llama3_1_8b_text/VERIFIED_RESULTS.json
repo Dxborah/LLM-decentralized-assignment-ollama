@@ -1,0 +1,8 @@
+{
+  "verified_utc": "2026-11-18T13:08:20.713292+00:00",
+  "unique_trials": 500,
+  "source_hashes_match": true,
+  "expected_case_trial_pairs_match": true,
+  "conflict_rounds_partition_correct": true,
+  "emergency_rule_uses": 0
+}

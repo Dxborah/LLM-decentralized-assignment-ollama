@@ -1,0 +1,14 @@
+{
+  "verified_utc": "2026-11-18T22:21:14.956935+00:00",
+  "unique_trials": 500,
+  "expected_case_trial_pairs_match": true,
+  "source_hashes_match": true,
+  "map_hashes_match": true,
+  "model_calls": 0,
+  "coin_fallbacks": 0,
+  "nash_fallbacks": 0,
+  "kind": "greedy",
+  "actual_runs_not_copied": true,
+  "deterministic_repeats_match": true,
+  "campaign_greedy_reference_match": true
+}
