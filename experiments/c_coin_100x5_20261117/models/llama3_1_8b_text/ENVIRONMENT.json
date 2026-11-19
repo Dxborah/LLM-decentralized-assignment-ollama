@@ -1,0 +1,15 @@
+{
+  "LLM_BACKEND": "ollama",
+  "LLM_INPUT_MODE": "text",
+  "LLM_MAX_OUTPUT_TOKENS": "2048",
+  "OLLAMA_MODEL": "llama3.1:8b",
+  "OLLAMA_HOST": "http://127.0.0.1:11435",
+  "OLLAMA_BASE_URL": "http://127.0.0.1:11435/v1",
+  "OLLAMA_MODELS": "/var/tmp/emeriaux-llm-vision-20261117/models",
+  "OLLAMA_NUM_CTX": "8192",
+  "MPLBACKEND": "Agg",
+  "RESULTS_DIR": "/home/thalassa/emeriaux/llm_assignment_multimodel_runs/vision_C_coin_100x5_20261117_183334/jobs/llama3_1_8b_text/results",
+  "PYTHONNOUSERSITE": "1",
+  "PYTHONUNBUFFERED": "1",
+  "PYTHONPATH": "/home/thalassa/emeriaux/llm_assignment_multimodel_runs/vision_C_coin_100x5_20261117_183334/jobs/llama3_1_8b_text/source"
+}

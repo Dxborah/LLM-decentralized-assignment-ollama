@@ -1,0 +1,22 @@
+{
+  "verified_utc": "2026-11-18T22:21:02.089499+00:00",
+  "reference_steps_match": true,
+  "controls": [
+    {
+      "Case": "case_1",
+      "Steps": 28,
+      "Failed": false
+    },
+    {
+      "Case": "case_2",
+      "Steps": 22,
+      "Failed": false
+    },
+    {
+      "Case": "case_76",
+      "Steps": 100,
+      "Failed": true
+    }
+  ],
+  "model_calls": 0
+}

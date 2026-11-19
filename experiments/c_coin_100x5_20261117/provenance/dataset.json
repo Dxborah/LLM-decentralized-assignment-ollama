@@ -1,0 +1,16 @@
+{
+  "created_utc": "2026-11-19T16:25:29.092304+00:00",
+  "base_commit": "45e9c2d5d997c60dc8ed1f12a032bcc1100a31d2",
+  "ollama_version": "0.40.16",
+  "context_length": 8192,
+  "game": "matching",
+  "prompt_variant": "C",
+  "fallback": "coin",
+  "base_seed": 20261117,
+  "maximum_steps": 100,
+  "models": 7,
+  "paired_rule_controls": 7,
+  "greedy_controls": 1,
+  "total_production_trials": 7500,
+  "excluded": "Weights, virtual environments, SSH configuration, credentials, grid renderings, server logs, rejected/superseded production and pilot traces. Model selection outcomes are recorded in model_runs.json."
+}

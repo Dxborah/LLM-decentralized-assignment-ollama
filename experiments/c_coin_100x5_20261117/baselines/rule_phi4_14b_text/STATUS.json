@@ -1,0 +1,19 @@
+{
+  "id": "rule_phi4_14b_text",
+  "host": "Hawaii",
+  "model": "phi4:14b",
+  "kind": "paired_rule",
+  "worker_pid": 1416467,
+  "boot_id": "60626dc5-3731-492e-9f6e-458d7ab97042",
+  "phase": "complete",
+  "started_utc": "2026-11-18T22:21:30.820999+00:00",
+  "updated_utc": "2026-11-19T03:45:49.630783+00:00",
+  "completed_trials": 500,
+  "expected_trials": 500,
+  "worlds_complete": 100,
+  "task_failures": 8,
+  "model_calls": 0,
+  "source_job": "phi4_14b_text",
+  "returncode": 0,
+  "finished_utc": "2026-11-19T03:45:49.630090+00:00"
+}

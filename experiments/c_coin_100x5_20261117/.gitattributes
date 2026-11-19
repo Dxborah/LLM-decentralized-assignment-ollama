@@ -1,0 +1,6 @@
+# Preserve the bytes covered by the published checksums on every platform.
+* -text
+*.zip binary
+*.xlsx binary
+# Raw replies can contain meaningful spaces and newlines; preserve them.
+*.csv whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab,cr-at-eol

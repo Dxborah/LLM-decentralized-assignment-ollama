@@ -1,0 +1,177 @@
+[
+  {
+    "id": "gemma4_12b",
+    "model": "gemma4:12b",
+    "production_included": false,
+    "phase": "replaced",
+    "replacement_id": "gemma4_12b_nothink",
+    "explanation": "Rejected pilot, superseded configuration, or cancelled run; not part of the 7 completed production models."
+  },
+  {
+    "id": "gemma4_e4b",
+    "model": "gemma4:e4b",
+    "input_mode": "image",
+    "production_included": true,
+    "worlds": 100,
+    "trials_per_world": 5,
+    "trials": 500,
+    "host": "bikini",
+    "source_profile": "source_30940d64de30",
+    "max_output_tokens": null,
+    "thinking": "model default; unchanged repo calls",
+    "allow_multiline_json": false
+  },
+  {
+    "id": "qwen2_5vl_7b",
+    "model": "qwen2.5vl:7b",
+    "input_mode": "image",
+    "production_included": true,
+    "worlds": 100,
+    "trials_per_world": 5,
+    "trials": 500,
+    "host": "artemis",
+    "source_profile": "source_30940d64de30",
+    "max_output_tokens": null,
+    "thinking": "model default; unchanged repo calls",
+    "allow_multiline_json": false
+  },
+  {
+    "id": "qwen3_5_9b",
+    "model": "qwen3.5:9b",
+    "production_included": false,
+    "phase": "replaced",
+    "replacement_id": "llama3_2_3b_text",
+    "explanation": "Rejected pilot, superseded configuration, or cancelled run; not part of the 7 completed production models."
+  },
+  {
+    "id": "llama3_2_3b_text",
+    "model": "llama3.2:3b",
+    "input_mode": "text",
+    "production_included": true,
+    "worlds": 100,
+    "trials_per_world": 5,
+    "trials": 500,
+    "host": "Hawaii",
+    "source_profile": "source_ef5b323886c2",
+    "max_output_tokens": "2048",
+    "thinking": "model default; unchanged repo calls",
+    "allow_multiline_json": false,
+    "original_source_profile": "source_cef06396954f",
+    "decoding_segments": [
+      {
+        "cases": "case_1 through case_37, all five trials (185 trials)",
+        "source_profile": "source_cef06396954f",
+        "max_output_tokens": null
+      },
+      {
+        "cases": "case_38 through case_100, all five trials (315 trials)",
+        "source_profile": "source_ef5b323886c2",
+        "max_output_tokens": 2048
+      }
+    ]
+  },
+  {
+    "id": "gemma4_12b_nothink",
+    "model": "gemma4:12b",
+    "input_mode": "image",
+    "production_included": true,
+    "worlds": 100,
+    "trials_per_world": 5,
+    "trials": 500,
+    "host": "Hermes",
+    "source_profile": "source_ef5b323886c2",
+    "max_output_tokens": "2048",
+    "thinking": "false",
+    "allow_multiline_json": false
+  },
+  {
+    "id": "llama3_1_8b_text",
+    "model": "llama3.1:8b",
+    "input_mode": "text",
+    "production_included": true,
+    "worlds": 100,
+    "trials_per_world": 5,
+    "trials": 500,
+    "host": "Hawaii",
+    "source_profile": "source_ef5b323886c2",
+    "max_output_tokens": "2048",
+    "thinking": "model default; unchanged repo calls",
+    "allow_multiline_json": false
+  },
+  {
+    "id": "deepseek_r1_8b_text",
+    "model": "deepseek-r1:8b",
+    "production_included": false,
+    "phase": "skipped",
+    "replacement_id": "ministral3_8b_instruct_multiline_4k",
+    "explanation": "Rejected pilot, superseded configuration, or cancelled run; not part of the 7 completed production models."
+  },
+  {
+    "id": "deepseek_r1_14b_text",
+    "model": "deepseek-r1:14b",
+    "production_included": false,
+    "phase": "skipped",
+    "replacement_id": null,
+    "explanation": "Rejected pilot, superseded configuration, or cancelled run; not part of the 7 completed production models."
+  },
+  {
+    "id": "qwen3_5_9b_text_nothink",
+    "model": "qwen3.5:9b",
+    "production_included": false,
+    "phase": "skipped",
+    "replacement_id": "qwen3_vl_8b_instruct",
+    "explanation": "Rejected pilot, superseded configuration, or cancelled run; not part of the 7 completed production models."
+  },
+  {
+    "id": "qwen3_vl_8b_instruct",
+    "model": "qwen3-vl:8b-instruct",
+    "production_included": false,
+    "phase": "skipped",
+    "replacement_id": "qwen3_vl_8b_instruct_4k",
+    "explanation": "Rejected pilot, superseded configuration, or cancelled run; not part of the 7 completed production models."
+  },
+  {
+    "id": "qwen3_vl_8b_instruct_4k",
+    "model": "qwen3-vl:8b-instruct",
+    "production_included": false,
+    "phase": "skipped",
+    "replacement_id": "ministral3_8b_instruct",
+    "explanation": "Rejected pilot, superseded configuration, or cancelled run; not part of the 7 completed production models."
+  },
+  {
+    "id": "ministral3_8b_instruct",
+    "model": "ministral-3:8b",
+    "production_included": false,
+    "phase": "skipped",
+    "replacement_id": "ministral3_8b_instruct_multiline_4k",
+    "explanation": "Rejected pilot, superseded configuration, or cancelled run; not part of the 7 completed production models."
+  },
+  {
+    "id": "ministral3_8b_instruct_multiline_4k",
+    "model": "ministral-3:8b",
+    "input_mode": "image",
+    "production_included": true,
+    "worlds": 100,
+    "trials_per_world": 5,
+    "trials": 500,
+    "host": "artemis",
+    "source_profile": "source_e7c924675fdc",
+    "max_output_tokens": "4096",
+    "thinking": "model default; unchanged repo calls",
+    "allow_multiline_json": true
+  },
+  {
+    "id": "phi4_14b_text",
+    "model": "phi4:14b",
+    "input_mode": "text",
+    "production_included": true,
+    "worlds": 100,
+    "trials_per_world": 5,
+    "trials": 500,
+    "host": "Hermes",
+    "source_profile": "source_e7c924675fdc",
+    "max_output_tokens": "4096",
+    "thinking": "model default; unchanged repo calls",
+    "allow_multiline_json": true
+  }
+]

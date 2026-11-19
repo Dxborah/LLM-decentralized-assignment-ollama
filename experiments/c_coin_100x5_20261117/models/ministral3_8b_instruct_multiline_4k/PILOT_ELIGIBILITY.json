@@ -1,0 +1,12 @@
+{
+  "eligible": true,
+  "rejection_reasons": [],
+  "pilot_trials": 4,
+  "pilot_seconds": 197.31951117515564,
+  "estimated_500_trial_hours": 6.851371915804015,
+  "estimated_hours_with_2x_margin": 13.70274383160803,
+  "maximum_hours": 48,
+  "minimum_valid_fraction": 0.9,
+  "ranking_valid_fraction": 1.0,
+  "conflict_valid_fraction": 1.0
+}

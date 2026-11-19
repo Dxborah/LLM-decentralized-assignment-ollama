@@ -1,0 +1,35 @@
+{
+  "verified_utc": "2026-11-18T22:21:02.946493+00:00",
+  "source_outcomes_match": true,
+  "source_trajectories_match": true,
+  "controls": [
+    {
+      "Case": "case_1",
+      "Trial": 1,
+      "Steps": 20,
+      "Failed": false,
+      "conflicts_replayed": 0,
+      "moves_match": true,
+      "rankings_sha256": "c72e9e22a51a81d7653727c06c1f14de717d6eb3674b2e3f50dfb86e86b473fb"
+    },
+    {
+      "Case": "case_2",
+      "Trial": 1,
+      "Steps": 14,
+      "Failed": false,
+      "conflicts_replayed": 2,
+      "moves_match": true,
+      "rankings_sha256": "4621b17ad325fcbc24a4ea3ae2f0bfa20da0864d331a26d051ac0c67b1ba8bd7"
+    },
+    {
+      "Case": "case_29",
+      "Trial": 2,
+      "Steps": 14,
+      "Failed": false,
+      "conflicts_replayed": 2,
+      "moves_match": true,
+      "rankings_sha256": "8d350067a341a6ef818337a3be9e4d8a1f010d4a7a46ac07ccec33c7a68713d0"
+    }
+  ],
+  "model_calls": 0
+}

@@ -1,0 +1,23 @@
+{
+  "host": "bikini",
+  "model": "gemma4:e4b",
+  "worker_pid": 1235890,
+  "expected_trials": 500,
+  "started_utc": "2026-11-17T23:45:31.119522+00:00",
+  "boot_id": "7e1ba810-3af6-4c8d-98b1-3ac752c6acc6",
+  "phase": "complete",
+  "updated_utc": "2026-11-19T04:07:13.688706+00:00",
+  "elapsed_seconds": 102103,
+  "completed_trials": 500,
+  "worlds_complete": 100,
+  "task_failures": 0,
+  "conflicts": 653,
+  "coin_fallbacks": 2,
+  "nash_fallbacks": 0,
+  "round1_agreements": 631,
+  "round2_agreements": 20,
+  "server_pid": 1235891,
+  "evaluation_pid": 1236635,
+  "returncode": 0,
+  "finished_utc": "2026-11-19T04:07:13.686166+00:00"
+}

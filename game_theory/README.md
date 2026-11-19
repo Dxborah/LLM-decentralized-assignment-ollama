@@ -140,6 +140,26 @@ python -m game_theory.eval_game --decider llm --game matching --config-dir confi
 
 ## Metrics
 
+### Fair random fallback after disagreement
+
+`--fallback coin` keeps the two independent LLM rounds, then replaces the final
+Nash fallback with an equal-probability choice among the conflicting agents.
+Two-agent conflicts use a 50/50 draw; larger conflicts give each agent probability
+`1 / number of players`. The prompt and game payoffs are unchanged. Nash values
+are still computed for scoring and do not select the random winner.
+
+```bash
+python -m game_theory.eval_game --decider llm --game matching --prompt-variant C --fallback coin --fallback-seed 20261117 --config-dir configs/eval --yes
+```
+
+Coin runs have a `_coin` filename suffix. The conflicts CSV records `coin_fallback`,
+`fallback_winner`, `coin_candidates`, `coin_win_probability`, the per-trial
+`fallback_seed`, and both LLM rounds' names. The summary reports the count and
+percentage of conflicts requiring a coin, affected trials, and goal/cell/replan
+counts. Random outcomes never count as LLM agreement. The base seed is expanded
+into independent case/trial seeds, making resumed trials reproducible. Use a new
+results directory when changing the seed. The summary updates after each trial.
+
 All metrics are in `<key>_team_summary.txt`; per-trial values are in
 `<key>_team_results.csv` and per-conflict values in `<key>_conflicts.csv`.
 
@@ -244,3 +264,10 @@ files, plus the reasoning file for `llm`. The reasoning log only records
 text; it doesn't change any decision or result.
 
 The full list of commands, and what to expect, is in the design doc.
+
+`LLM_ALLOW_MULTILINE_JSON=true` optionally accepts literal control characters
+(such as line breaks) inside strings in otherwise complete ranking JSON.
+The default remains strict JSON parsing. This does not complete truncated
+replies, change goal ordering, or repair other syntax errors. Accepted
+formatting repairs are printed in the evaluation log; record this setting
+when comparing runs.

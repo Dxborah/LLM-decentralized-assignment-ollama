@@ -1,0 +1,78 @@
+{
+  "verified_utc": "2026-11-18T22:24:56.208703+00:00",
+  "host": "Hawaii",
+  "controller_pid": 1416362,
+  "detached": true,
+  "code_hashes_match": true,
+  "expected_worlds": 100,
+  "trials_per_world": 5,
+  "baseline_jobs": 8,
+  "total_expected_baseline_trials": 4000,
+  "new_model_calls": 0,
+  "checks": [
+    {
+      "id": "greedy_no_llm",
+      "phase": "complete",
+      "completed_trials": 500,
+      "task_failures": 10,
+      "model_calls": 0,
+      "controls_verified": true
+    },
+    {
+      "id": "rule_gemma4_12b_nothink",
+      "phase": "complete",
+      "completed_trials": 500,
+      "task_failures": 3,
+      "model_calls": 0,
+      "controls_verified": true
+    },
+    {
+      "id": "rule_llama3_1_8b_text",
+      "phase": "complete",
+      "completed_trials": 500,
+      "task_failures": 1,
+      "model_calls": 0,
+      "controls_verified": true
+    },
+    {
+      "id": "rule_llama3_2_3b_text",
+      "phase": "complete",
+      "completed_trials": 500,
+      "task_failures": 5,
+      "model_calls": 0,
+      "controls_verified": true
+    },
+    {
+      "id": "rule_qwen2_5vl_7b",
+      "phase": "complete",
+      "completed_trials": 500,
+      "task_failures": 9,
+      "model_calls": 0,
+      "controls_verified": true
+    },
+    {
+      "id": "rule_gemma4_e4b",
+      "phase": "waiting_source",
+      "completed_trials": 362,
+      "task_failures": 0,
+      "model_calls": 0,
+      "controls_verified": true
+    },
+    {
+      "id": "rule_ministral3_8b_instruct_multiline_4k",
+      "phase": "waiting_source",
+      "completed_trials": 339,
+      "task_failures": 5,
+      "model_calls": 0,
+      "controls_verified": true
+    },
+    {
+      "id": "rule_phi4_14b_text",
+      "phase": "waiting_source",
+      "completed_trials": 116,
+      "task_failures": 0,
+      "model_calls": 0,
+      "controls_verified": true
+    }
+  ]
+}

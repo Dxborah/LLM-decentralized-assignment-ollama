@@ -83,6 +83,7 @@ from core.plot import plot_grid_unassigned_labeled
 from core.utils import shortest_path_length, select_direction_opt
 import re
 import argparse
+import random
 
 # NEW: the game-theory layer
 from game_theory.conflict_games import (
@@ -102,13 +103,23 @@ from game_theory.conflict_games import (
 
 def parse_ranking_response(text):
     """
-    Extract the JSON ranking from the LLM reply. UNCHANGED from the original.
+    Extract the JSON ranking, optionally accepting multiline string values.
     Returns ([], "", "") and writes the reply to fails.txt if parsing fails.
     """
     try:
         match = re.search(r"```json\s*(\{.*?\})\s*```", text, re.DOTALL)
         json_str = match.group(1) if match else text[text.index("{"):]
-        parsed = json.loads(json_str)
+        try:
+            parsed = json.loads(json_str)
+        except json.JSONDecodeError as error:
+            if (os.getenv("LLM_ALLOW_MULTILINE_JSON", "false").lower() != "true"
+                    or not error.msg.startswith("Invalid control character")):
+                raise
+            # Some models put literal newlines in otherwise complete reasoning
+            # strings. Read those strings without repairing structure or choices.
+            # Truncated objects and other syntax errors still fail here.
+            parsed = json.loads(json_str, strict=False)
+            print("Accepted ranking JSON with unescaped control characters in strings.")
 
         reasoning = parsed.get("reasoning", "").strip()
         explanation = parsed.get("explanation", "").strip()
@@ -241,7 +252,7 @@ def preferences(env, agent_pos, ranking, allowed, unreachable):
 
 def assign_goals(env, agent_positions, candidates, prefs, decider, rotation,
                  K, D, unreachable, hold, conflict_log, step, decision,
-                 game_form="claimyield", prompt_variant="current"):
+                 game_form="claimyield", prompt_variant="current", fallback="nash", rng=None):
     """
     Give each candidate agent one goal, settling every conflict with a game.
 
@@ -294,7 +305,7 @@ def assign_goals(env, agent_positions, candidates, prefs, decider, rotation,
                                 context={"unreachable": unreachable})
 
         final, record = play_conflict(game, decider, rotation, form=game_form,
-                                      prompt_variant=prompt_variant)      # NEW 12 Nov
+                                      prompt_variant=prompt_variant, fallback=fallback, rng=rng)
         record.update({"step": step, "decision": decision})
         conflict_log.append(record)
         print(f"Goal game for {g}: players {[i + 1 for i in players]}, "
@@ -348,6 +359,8 @@ def run(
                                             #      if given, no per-trial files are written
     reasoning_log=None,                     # NEW 10 Nov: list that receives each agent's
                                             #   Phase 1 ranking reasoning (logging only)
+    fallback="nash",                       # After two failed matching rounds.
+    fallback_seed=None,                    # One independent, reproducible RNG per trial.
     **kwargs,                               # NEW: ignore extra args from eval scripts
 ):
     """
@@ -382,6 +395,7 @@ def run(
     # agent_rank_once_bfs come from the games, not from a different prompt.
 
     K, D = default_costs(env.size, clash_factor, delay_factor)   # NEW
+    fallback_rng = random.Random(fallback_seed)
     unreachable = 4 * env.size * env.size                        # NEW
     conflicts = [] if conflict_log is None else conflict_log     # NEW
     n_before = len(conflicts)
@@ -412,7 +426,9 @@ def run(
     print(f"Obstacles: {obstacles}")
     print(f"Decider: {decider}, game: {game_form}, rotation: {rotation}, K={K:g}, D={D:g}")
 
-    plot_grid_unassigned_labeled(env, image_path=image_path)
+    render_grid = os.getenv("LLM_INPUT_MODE", "image").lower() != "text"
+    if render_grid:
+        plot_grid_unassigned_labeled(env, image_path=image_path)
 
     # ----------- Phase 1: Ranking (UNCHANGED) ----------
     for i in range(num_agents):
@@ -478,13 +494,14 @@ def run(
 
     assigned = assign_goals(env, agent_positions, players, prefs, decider, rotation,
                             K, D, unreachable, hold, conflicts, step, "goal", game_form,
-                            prompt_variant)
+                            prompt_variant, fallback, fallback_rng)
     proposed_goals = [assigned.get(i) for i in range(num_agents)]
     print("Proposed goals after the goal games:", proposed_goals)
 
     while any(active) and step < max_steps:
         print(f"\n--- Step {step} ---")
-        plot_grid_unassigned_labeled(env, image_path=image_path)
+        if render_grid:
+            plot_grid_unassigned_labeled(env, image_path=image_path)
         proposals = agent_positions[:]
 
         # ----------- Re-plan stranded agents (NEW, always on) ----------
@@ -508,7 +525,7 @@ def run(
                           for i in stranded}
                 new_goals = assign_goals(env, agent_positions, stranded, sprefs, decider, rotation,
                                          K, D, unreachable, hold, conflicts, step, "replan", game_form,
-                                         prompt_variant)
+                                         prompt_variant, fallback, fallback_rng)
                 for i in stranded:
                     proposed_goals[i] = new_goals[i]
                 print(f"Re-plan at step {step}: agents {[i + 1 for i in stranded]} -> "
@@ -597,7 +614,8 @@ def run(
             game = TeamConflictGame("cell", cell, group, a, b, K, D,
                                     context={"unreachable": unreachable})
             final, record = play_conflict(game, decider, rotation, form=game_form,
-                                          prompt_variant=prompt_variant)  # NEW 12 Nov
+                                          prompt_variant=prompt_variant, fallback=fallback,
+                                          rng=fallback_rng)
             record.update({"step": step, "decision": "cell"})
             conflicts.append(record)
             print(f"Cell game at {cell}: players {[i + 1 for i in group]}, "

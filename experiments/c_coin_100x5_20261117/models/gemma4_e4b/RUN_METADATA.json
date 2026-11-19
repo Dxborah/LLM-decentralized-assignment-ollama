@@ -1,0 +1,51 @@
+{
+  "job": {
+    "id": "gemma4_e4b",
+    "host": "bikini",
+    "ssh_host": "Bikini",
+    "model": "gemma4:e4b",
+    "directory": "/home/thalassa/emeriaux/llm_assignment_multimodel_runs/vision_C_coin_100x5_20261117_183334/jobs/gemma4_e4b",
+    "model_directory": "/usr/local/fastdata2/emeriaux/llm-vision-20261117/models",
+    "working_directory": "/usr/local/fastdata2/emeriaux/llm-vision-20261117/work/gemma4_e4b"
+  },
+  "command": [
+    "/home/thalassa/emeriaux/miniforge3/envs/llm_assignment_hermes/bin/python",
+    "-u",
+    "-m",
+    "game_theory.eval_game",
+    "--decider",
+    "llm",
+    "--game",
+    "matching",
+    "--prompt-variant",
+    "C",
+    "--fallback",
+    "coin",
+    "--fallback-seed",
+    "20261117",
+    "--config-dir",
+    "configs/eval",
+    "--trials",
+    "5",
+    "--yes"
+  ],
+  "environment": {
+    "LLM_BACKEND": "ollama",
+    "OLLAMA_MODEL": "gemma4:e4b",
+    "OLLAMA_HOST": "http://127.0.0.1:11435",
+    "OLLAMA_BASE_URL": "http://127.0.0.1:11435/v1",
+    "OLLAMA_MODELS": "/usr/local/fastdata2/emeriaux/llm-vision-20261117/models",
+    "OLLAMA_NUM_CTX": "8192",
+    "MPLBACKEND": "Agg",
+    "RESULTS_DIR": "/home/thalassa/emeriaux/llm_assignment_multimodel_runs/vision_C_coin_100x5_20261117_183334/jobs/gemma4_e4b/results",
+    "PYTHONNOUSERSITE": "1",
+    "PYTHONUNBUFFERED": "1",
+    "PYTHONPATH": "/home/thalassa/emeriaux/llm_assignment_multimodel_runs/vision_C_coin_100x5_20261117_183334/jobs/gemma4_e4b/source"
+  },
+  "base_commit": "45e9c2d5d997c60dc8ed1f12a032bcc1100a31d2",
+  "expected_trials": 500,
+  "context_length": 8192,
+  "working_directory": "/usr/local/fastdata2/emeriaux/llm-vision-20261117/work/gemma4_e4b",
+  "smoke_check_excluded_from_evaluation": true,
+  "inference_thinking": "model default; unchanged repo calls"
+}

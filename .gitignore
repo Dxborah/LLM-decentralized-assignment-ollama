@@ -11,3 +11,10 @@
 *.xlsx
 .venv
 figures/*.yaml
+
+# Published benchmark data and frozen source snapshots.
+!/experiments/c_coin_100x5_20261117/
+!/experiments/c_coin_100x5_20261117/**/*.csv
+!/experiments/c_coin_100x5_20261117/**/*.txt
+!/experiments/c_coin_100x5_20261117/**/*.xlsx
+!/experiments/c_coin_100x5_20261117/**/*.zip

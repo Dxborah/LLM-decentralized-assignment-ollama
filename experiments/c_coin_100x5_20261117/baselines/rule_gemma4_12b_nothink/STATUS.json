@@ -1,0 +1,19 @@
+{
+  "id": "rule_gemma4_12b_nothink",
+  "host": "Hawaii",
+  "model": "gemma4:12b",
+  "kind": "paired_rule",
+  "worker_pid": 1416364,
+  "boot_id": "60626dc5-3731-492e-9f6e-458d7ab97042",
+  "phase": "complete",
+  "started_utc": "2026-11-18T22:21:01.900344+00:00",
+  "updated_utc": "2026-11-18T22:21:16.029312+00:00",
+  "completed_trials": 500,
+  "expected_trials": 500,
+  "worlds_complete": 100,
+  "task_failures": 3,
+  "model_calls": 0,
+  "source_job": "gemma4_12b_nothink",
+  "returncode": 0,
+  "finished_utc": "2026-11-18T22:21:16.028579+00:00"
+}

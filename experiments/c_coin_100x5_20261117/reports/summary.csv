@@ -1,0 +1,16 @@
+Configuration,Method,Model,Input,Worlds,Trials,MeanSuccessfulSteps,MeanStepsIncluding100StepFailures,OptimalTrials,FailedTrials,OptimalPercentOf500,CoinFallbacks,Conflicts,Status,CoinPercentOfConflicts
+gemma4_e4b,LLM game + fair coin,Gemma4 E4B,Image + text,100,500,13.74,13.74,383,0,76.6,2,653,complete,0.30627871362940273
+gemma4_12b_nothink,LLM game + fair coin,Gemma4 12B,Image + text,100,500,13.778,13.778,394,0,78.8,0,668,complete,0.0
+phi4_14b_text,LLM game + fair coin,Phi-4 14B,Text only,100,500,14.262096774193548,14.948,324,4,64.8,6,1029,complete,0.5830903790087464
+ministral3_8b_instruct_multiline_4k,LLM game + fair coin,Ministral 3 8B,Image + text,100,500,14.773547094188377,14.944,297,1,59.4,12,1301,complete,0.9223674096848578
+qwen2_5vl_7b,LLM game + fair coin,Qwen2.5-VL 7B,Image + text,100,500,15.37,15.37,247,0,49.4,13,1497,complete,0.8684034736138945
+llama3_2_3b_text,LLM game + fair coin,Llama3.2 3B,Text only,100,500,17.066532258064516,17.73,135,4,27.0,165,1765,complete,9.34844192634561
+llama3_1_8b_text,LLM game + fair coin,Llama3.1 8B,Text only,100,500,17.364,17.364,152,0,30.4,260,1598,complete,16.270337922403005
+rule_gemma4_e4b,Fixed priority rule,Gemma4 E4B,Image + text (saved rankings),100,500,14.366935483870968,15.052,362,4,72.4,0,657,complete,0
+rule_gemma4_12b_nothink,Fixed priority rule,Gemma4 12B,Image + text (saved rankings),100,500,14.064386317907445,14.58,375,3,75.0,0,562,complete,0
+rule_phi4_14b_text,Fixed priority rule,Phi-4 14B,Text only (saved rankings),100,500,15.260162601626016,16.616,284,8,56.8,0,720,complete,0
+rule_ministral3_8b_instruct_multiline_4k,Fixed priority rule,Ministral 3 8B,Image + text (saved rankings),100,500,16.20892494929006,17.382,255,7,51.0,0,1053,complete,0
+rule_qwen2_5vl_7b,Fixed priority rule,Qwen2.5-VL 7B,Image + text (saved rankings),100,500,18.128309572301426,19.602,144,9,28.8,0,1339,complete,0
+rule_llama3_2_3b_text,Fixed priority rule,Llama3.2 3B,Text only (saved rankings),100,500,18.15959595959596,18.978,145,5,29.0,0,1611,complete,0
+rule_llama3_1_8b_text,Fixed priority rule,Llama3.1 8B,Text only (saved rankings),100,500,18.2625250501002,18.426,126,1,25.2,0,1414,complete,0
+greedy_no_llm,Greedy,Greedy (no LLM),No LLM,100,500,16.112244897959183,17.79,205,10,41.0,0,0,complete,0

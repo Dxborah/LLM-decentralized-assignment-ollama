@@ -77,11 +77,12 @@ Usage (from the repo root, with Ollama running and LLM_BACKEND=ollama):
 import csv
 import os
 import argparse
+import hashlib
 from core.environment import GridWorld
 from core.plot import plot_grid_unassigned_labeled
 from core.find_optim_sol import compute_distance_matrix, find_best_assignment   # NEW
 
-from game_theory.conflict_games import DECIDERS, FORMS, CLASH_FACTOR, YIELD_DELAY_FACTOR  # NEW
+from game_theory.conflict_games import DECIDERS, FORMS, FALLBACKS, CLASH_FACTOR, YIELD_DELAY_FACTOR
 from game_theory import agent_rank_once_game                                     # NEW
 
 # Constants
@@ -105,6 +106,8 @@ CONFLICT_FIELDS = [
 # columns plus the names each agent gave. The claim/yield CSV keeps the
 # original columns above, so old and new claim/yield files stay compatible.
 MATCHING_CONFLICT_FIELDS = CONFLICT_FIELDS[:12] + ["round1_names", "final_names", "agreed"] + CONFLICT_FIELDS[12:]
+COIN_CONFLICT_FIELDS = ["fallback_policy", "coin_fallback", "fallback_winner", "coin_candidates",
+                        "coin_win_probability", "fallback_seed", "round2_names", "round2_agreed"]
 
 # NEW (10 Nov): columns of the reasoning CSV - one row per model answer:
 # each agent's Phase 1 ranking (decision = "ranking") and every conflict
@@ -123,7 +126,7 @@ MOVE_FIELDS = ["Case", "Trial", "step", "agent_id", "position_before",
 HARD_GAP = 2
 
 
-def task_key(decider, game_form="claimyield", prompt_variant="current"):
+def task_key(decider, game_form="claimyield", prompt_variant="current", fallback="nash"):
     """
     NEW: file-name prefix for a run.
         ('llm', 'claimyield') -> 'agent_rank_once_game_llm'           (original name)
@@ -131,7 +134,14 @@ def task_key(decider, game_form="claimyield", prompt_variant="current"):
     """
     key = f"{AGENT_NAME}_{decider}"
     key = key if game_form == "claimyield" else f"{key}_{game_form}"
-    return key if prompt_variant == "current" else f"{key}_{prompt_variant}"   # NEW 12 Nov
+    key = key if prompt_variant == "current" else f"{key}_{prompt_variant}"
+    return key if fallback == "nash" else f"{key}_coin"
+
+
+def trial_fallback_seed(seed, case_name, trial):
+    """Resuming or reordering cases must not change a trial's random stream."""
+    digest = hashlib.sha256(f"{seed}:{case_name}:{trial}".encode()).digest()
+    return int.from_bytes(digest[:8], "big")
 
 
 def true_optimum(config_path):
@@ -159,7 +169,8 @@ def case_number(name):
 
 
 def evaluate_team(key, run_fn, cases, decider, clash_factor, delay_factor,
-                  game_form="claimyield", prompt_variant="current"):
+                  game_form="claimyield", prompt_variant="current", fallback="nash",
+                  fallback_seed=20261117):
     """
     Run the missing trials of every case and append one CSV row per trial,
     one conflicts-CSV row per conflict and one moves-CSV row per agent move.
@@ -196,6 +207,8 @@ def evaluate_team(key, run_fn, cases, decider, clash_factor, delay_factor,
          open(moves_path, mode='a', newline='') as fm:
         writer = csv.writer(f)
         fields = CONFLICT_FIELDS if game_form == "claimyield" else MATCHING_CONFLICT_FIELDS
+        if fallback == "coin":
+            fields = fields + COIN_CONFLICT_FIELDS
         cwriter = csv.DictWriter(fc, fieldnames=fields, extrasaction="ignore")
         mwriter = csv.DictWriter(fm, fieldnames=MOVE_FIELDS, extrasaction="ignore")
         if write_header:
@@ -212,6 +225,7 @@ def evaluate_team(key, run_fn, cases, decider, clash_factor, delay_factor,
             greedy = greedy_steps(case_config_path) if with_greedy else None   # NEW 11 Nov
             for trial in trials_left:
                 rotation = (trial - 1) % 2                       # NEW
+                trial_seed = trial_fallback_seed(fallback_seed, case_name, trial)
                 print(f"\n--- {case_name}, Trial {trial} (rotation {rotation}) ---")
 
                 if VISUALIZE:
@@ -237,12 +251,15 @@ def evaluate_team(key, run_fn, cases, decider, clash_factor, delay_factor,
                     game_form=game_form,             # NEW 10 Nov
                     prompt_variant=prompt_variant,   # NEW 12 Nov
                     reasoning_log=reasoning_log,     # NEW 10 Nov
+                    fallback=fallback,
+                    fallback_seed=trial_seed,
                 )
 
                 writer.writerow([case_name, trial, steps, optimal, int(failed), collisions, best]
                                 + ([greedy] if with_greedy else []))
                 for rec in conflict_log:
-                    cwriter.writerow({"Case": case_name, "Trial": trial, **rec})
+                    cwriter.writerow({"Case": case_name, "Trial": trial, **rec,
+                                      "fallback_seed": trial_seed})
                 for row in move_log:
                     mwriter.writerow({"Case": case_name, "Trial": trial, **row})
                 if reasoning_path:                               # NEW 10 Nov
@@ -257,6 +274,8 @@ def evaluate_team(key, run_fn, cases, decider, clash_factor, delay_factor,
                 f.flush()
                 fc.flush()
                 fm.flush()
+                if fallback == "coin":
+                    write_summary(log_path, conflicts_path, summary_path)
 
     if reasoning_path:
         freason.close()
@@ -384,6 +403,24 @@ def write_summary(log_path, conflicts_path, summary_path):
         lines.insert(lines.index("Game level (round 1, s: 0 = Nash, +1 = optimum, -1 = worst)") + 1,
                      f"  Form: matching - agreement rate (everyone named the same agent): "
                      f"{_pct(_mean([int(c['agreed']) for c in conflicts]))}")
+    if (conflicts and "coin_fallback" in conflicts[0]) or os.path.basename(log_path).endswith('_coin_team_results.csv'):
+        flips = [c for c in conflicts if int(c.get("coin_fallback") or 0)]
+        affected = {(c['Case'], c['Trial']) for c in flips}
+        lines += [
+            "",
+            "Fair coin / uniform fallback (after two failed LLM rounds)",
+            f"  Coin fallbacks: {len(flips)}/{n} conflicts ({_pct(len(flips) / n if n else None)})",
+            f"  Trials requiring a coin fallback: {len(affected)}/{len(rows)}",
+            f"  Coin fallbacks, goal / cell / replan: "
+            f"{sum(c['decision'] == 'goal' for c in flips)} / "
+            f"{sum(c['decision'] == 'cell' for c in flips)} / "
+            f"{sum(c['decision'] == 'replan' for c in flips)}",
+            f"  Two-agent flips / larger uniform draws: "
+            f"{sum(len(c['players'].split()) == 2 for c in flips)} / "
+            f"{sum(len(c['players'].split()) > 2 for c in flips)}",
+            "  Each conflicting agent has probability 1 / number of players.",
+            "  Random fallbacks are not counted as LLM agreement.",
+        ]
     print("\n".join(lines))
     with open(summary_path, "w") as f:
         f.writelines(line + "\n" for line in lines)
@@ -399,6 +436,10 @@ if __name__ == "__main__":
                              "or matching (NEW 10 Nov: 'which agent should take it?')")
     parser.add_argument("--prompt-variant", choices=["current", "A", "B", "C"], default="current",
                         help="NEW 12 Nov: wording of the matching prompt (matching form only)")
+    parser.add_argument("--fallback", choices=FALLBACKS, default="nash",
+                        help="decision after two failed LLM rounds: nash or fair coin/uniform draw")
+    parser.add_argument("--fallback-seed", type=int, default=20261117,
+                        help="base seed; each case/trial gets an independent reproducible coin stream")
     parser.add_argument("--clash-factor", type=float, default=CLASH_FACTOR,
                         help="K = factor x grid size (default 0.75 -> 6 on 8x8)")
     parser.add_argument("--delay-factor", type=float, default=YIELD_DELAY_FACTOR,
@@ -424,7 +465,9 @@ if __name__ == "__main__":
     TRIALS_PER_CASE = args.trials
     if args.prompt_variant != "current" and args.game != "matching":
         raise ValueError("--prompt-variant A/B/C needs --game matching")
-    key = task_key(args.decider, args.game, args.prompt_variant)
+    if args.fallback == "coin" and args.game != "matching":
+        raise ValueError("--fallback coin needs --game matching")
+    key = task_key(args.decider, args.game, args.prompt_variant, args.fallback)
 
     # Load all YAML cases (CHANGED 11 Nov: numeric order, case_2 before case_10)
     names = sorted((os.path.splitext(f)[0] for f in os.listdir(args.config_dir) if f.endswith(".yaml")),
@@ -469,4 +512,5 @@ if __name__ == "__main__":
                       os.path.join(OUTPUT_DIR, f"{key}_team_summary.txt"))
     else:
         evaluate_team(key, agent_rank_once_game.run, todo, args.decider,
-                      args.clash_factor, args.delay_factor, args.game, args.prompt_variant)
+                      args.clash_factor, args.delay_factor, args.game, args.prompt_variant,
+                      args.fallback, args.fallback_seed)

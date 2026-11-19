@@ -34,6 +34,20 @@ def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
+
+def ranking_content(image_path, prompt):
+    """Keep the ranking text unchanged; optionally omit image input."""
+    mode = os.getenv("LLM_INPUT_MODE", "image").lower()
+    if mode == "text":
+        return prompt
+    if mode != "image":
+        raise ValueError("LLM_INPUT_MODE must be image or text")
+    return [
+        {"type": "text", "text": prompt},
+        {"type": "image_url", "image_url": {
+            "url": f"data:image/png;base64,{encode_image(image_path)}"}},
+    ]
+
 def send_image_to_model_ollama(image_path, prompt, model='llava'):
     response = ollama.chat(
         model=model,
@@ -128,9 +142,30 @@ def send_image_to_model_openai(image_path, prompt, temperature=None):
 
 def send_image_to_model_openai_logprobs(image_path, prompt, model="gpt-4o", temperature=None):
     client = _client()
-    
-    # Read and encode the image as base64
-    base64_image = encode_image(image_path)
+
+    # Optional native control for models whose default thinking exhausts
+    # the context before emitting their final JSON. Default routing is kept.
+    think = os.getenv("LLM_THINK")
+    if _backend() == "ollama" and think is not None:
+        if think.lower() not in ("true", "false"):
+            raise ValueError("LLM_THINK must be true or false")
+        mode = os.getenv("LLM_INPUT_MODE", "image").lower()
+        if mode not in ("image", "text"):
+            raise ValueError("LLM_INPUT_MODE must be image or text")
+        message = {"role": "user", "content": prompt}
+        if mode == "image":
+            message["images"] = [encode_image(image_path)]
+        options = {"num_ctx": int(os.getenv("OLLAMA_NUM_CTX", "8192"))}
+        if temperature is not None:
+            options["temperature"] = temperature
+        if os.getenv("LLM_MAX_OUTPUT_TOKENS"):
+            limit = int(os.environ["LLM_MAX_OUTPUT_TOKENS"])
+            if limit <= 0:
+                raise ValueError("LLM_MAX_OUTPUT_TOKENS must be positive")
+            options["num_predict"] = limit
+        response = ollama.chat(model=_model(model), messages=[message],
+                               options=options, think=think.lower() == "true")
+        return response["message"]["content"].strip(), []
 
     print(f'Sending request to {_backend()} API')
 
@@ -139,13 +174,7 @@ def send_image_to_model_openai_logprobs(image_path, prompt, model="gpt-4o", temp
         "messages": [
             {
                 "role": "user",
-                "content": [
-                    { "type": "text", "text": prompt },
-                    {
-                        "type": "image_url",
-                        "image_url": {"url": f"data:image/png;base64,{base64_image}"},
-                    },
-                ]
+                "content": ranking_content(image_path, prompt)
             }
         ],
         "logprobs": True,
@@ -155,6 +184,13 @@ def send_image_to_model_openai_logprobs(image_path, prompt, model="gpt-4o", temp
     if temperature is not None:
         params["temperature"] = temperature
         # params["top_p"] = 0.0000001
+
+    output_limit = os.getenv("LLM_MAX_OUTPUT_TOKENS")
+    if output_limit:
+        limit = int(output_limit)
+        if limit <= 0:
+            raise ValueError("LLM_MAX_OUTPUT_TOKENS must be positive")
+        params["max_tokens"] = limit
 
     response = client.chat.completions.create(**params)
     print('Received response')

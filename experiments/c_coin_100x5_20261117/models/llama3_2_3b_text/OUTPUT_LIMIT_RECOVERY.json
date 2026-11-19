@@ -1,0 +1,15 @@
+{
+  "created_utc": "2026-11-18T02:50:10.549435+00:00",
+  "reason": "Unbounded generation exceeded 24000 tokens and request timed out",
+  "preserved_completed_trials": 185,
+  "maximum_new_tokens": 2048,
+  "applies_to": [
+    "ranking",
+    "conflict"
+  ],
+  "previous_source": "source",
+  "resumed_source": "/home/thalassa/emeriaux/llm_assignment_multimodel_runs/vision_C_coin_100x5_20261117_183334/jobs/llama3_2_3b_text/source_output_limit",
+  "partial_trial_retried": "case_38 trial 1",
+  "prompts_unchanged": true,
+  "automatic_transient_restarts": 2
+}

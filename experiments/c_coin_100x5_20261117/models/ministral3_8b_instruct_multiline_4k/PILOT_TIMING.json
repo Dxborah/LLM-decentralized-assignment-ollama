@@ -1,0 +1,14 @@
+{
+  "completed_utc": "2026-11-18T17:38:42.856383+00:00",
+  "cases": [
+    "case_1",
+    "case_2",
+    "case_13",
+    "case_36"
+  ],
+  "duration_seconds": 197.31951117515564,
+  "completed_trials": 4,
+  "estimated_500_trial_hours": 6.851371915804015,
+  "estimated_hours_with_2x_margin": 13.70274383160803,
+  "pilot_trials_excluded_from_main_results": true
+}
